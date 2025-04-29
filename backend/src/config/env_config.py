@@ -1,0 +1,16 @@
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+SUPABASE_URL = os.getenv('PROJECT_URL')
+SUPABASE_KEY = os.getenv('API_KEY')
+PERSONAL_INFO_TABLE = os.getenv('PERSONAL_INFO_TABLE')
+SKILLS_TABLE = os.getenv('SKILLS_TABLE')
+RESUMES_TABLE = os.getenv('RESUMES_TABLE')
+RESUME_SKILLS = os.getenv('RESUME_SKILLS')
+RESUME_EXPERIENCE = os.getenv('RESUME_EXPERIENCE')
+RESUME_EDUCATION = os.getenv('RESUME_EDUCATION')
+EXPERIENCE = os.getenv('EXPERIENCES')
+EDUCATION = os.getenv('EDUCATION')
+VERTEX_API_KEY = os.getenv('VERTEX_API_KEY')
+RESUME_SUMMARY = os.getenv('RESUME_SUMMARY')
