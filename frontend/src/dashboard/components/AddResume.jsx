@@ -58,7 +58,7 @@ const AddResume = () => {
       >
         <PlusSquare />
       </div>
-      <Dialog open={openDialog}>
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Create New Resume</DialogTitle>

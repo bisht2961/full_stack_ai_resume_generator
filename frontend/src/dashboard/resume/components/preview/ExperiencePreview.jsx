@@ -16,7 +16,7 @@ function ExperiencePreview({ resumeInfo }) {
   return (
     <div className="my-6">
       <h2
-        className="text-center font-bold text-sm mb-2"
+        className="text-center font-bold text-base mb-2"
         style={{ color: themeColor }}
       >
         Professional Experience
@@ -31,9 +31,19 @@ function ExperiencePreview({ resumeInfo }) {
             <span>Jan 2021 - Present</span>
           </h2>
           <p className="my-2">
-            Led a team of developers in designing and implementing scalable web
+            1. Led a team of developers in designing and implementing scalable web
             applications using React and Node.js. Improved performance by 30%
             and collaborated cross-functionally with product and design teams.
+          </p>
+          <p className="my-2">
+            2. Developed and maintained RESTful APIs, ensuring high availability and
+            reliability. Utilized Agile methodologies to manage project timelines
+            and deliverables.
+          </p>
+          <p className="my-2">
+            3. Collaborated with QA teams to identify and resolve bugs, enhancing
+            user experience and application stability. Participated in code
+            reviews and provided mentorship to junior developers.
           </p>
         </div>
       ) : (
@@ -41,10 +51,10 @@ function ExperiencePreview({ resumeInfo }) {
           (exp, index) =>
             exp.title?.trim() && (
               <div key={index} className="my-5">
-                <h2 className="text-sm font-bold" style={{ color: themeColor }}>
+                <h2 className="text-base font-bold" style={{ color: themeColor }}>
                   {exp.title}
                 </h2>
-                <h2 className="text-xs flex justify-between">
+                <h2 className="text-sm flex justify-between">
                   {exp.companyName} - {exp.city}, {exp.state}
                   <span>
                     {exp.startDate} -{" "}
@@ -53,7 +63,7 @@ function ExperiencePreview({ resumeInfo }) {
                 </h2>
                 {exp?.workSummary && (
                   <div
-                    className="text-xs my-2 prose prose-sm"
+                    className="text-sm my-2 prose prose-sm w-full max-w-none font-normal leading-relaxed font-['Inter'] text-gray-800"
                     dangerouslySetInnerHTML={{ __html: exp.workSummary }}
                   />
                 )}

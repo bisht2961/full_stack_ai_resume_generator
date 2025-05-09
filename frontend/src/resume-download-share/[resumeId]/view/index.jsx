@@ -4,35 +4,74 @@ import { ResumeInfoContext } from "@/context/ResumeInfoContext";
 import ResumePreview from "@/dashboard/resume/components/ResumePreview";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import GlobalApi from "../../../../services/GlobalApi";
+import { useResumeApi } from "../../../hooks/useResumeApi";
 import { toast } from "sonner";
 import { RWebShare } from "react-web-share";
+import { getResumeInfo } from "../../../utils/resumeUtils";
 
-const base_url = import.meta.env.VITE_APP_URL
+const base_url = import.meta.env.VITE_APP_URL;
+import html2pdf from "html2pdf.js";
 
 function ViewResume() {
   const [resumeInfo, setResumeInfo] = useState();
+  const [loading, setLoading] = useState(false);
   const { resumeId } = useParams();
+  const [resumeUrl, setResumeUrl] = useState("");
+  const {
+    getResume,
+    getPersonalInfo,
+    getExperienceById,
+    getSkillsById,
+    getEducationById,
+    getSummaryById,
+    uploadResumePdf,
+    uploadResumePdfError,
+  } = useResumeApi();
+
   useEffect(() => {
-    console.log(resumeId);
-    getResumeInfo();
+    // console.log(resumeId);
+    resumeId && fetchResumeInfo();
   }, []);
 
-  const getResumeInfo = () => {
-    GlobalApi.GetResumeById(resumeId).then(
-      (res) => {
-        console.log(res.data.data);
-        setResumeInfo(res.data.data);
-      },
-      (error) => {
-        console.log(error);
-        toast.error("Problem fetching resume info");
-      }
-    );
+  const fetchResumeInfo = async () => {
+    setLoading(true);
+    const data = await getResumeInfo({
+      resumeId,
+      getResume,
+      getPersonalInfo,
+      getExperienceById,
+      getEducationById,
+      getSkillsById,
+      getSummaryById,
+    });
+    console.log(data);
+    setResumeInfo(data);
+    setLoading(false);
   };
 
-  const handleDownload = () => {
-    window.print();
+  const handleDownload = async () => {
+    const element = document.getElementById("print-area"); // your preview wrapper div
+    const opt = {
+      margin: 0,
+      filename: "resume.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+    };
+    const worker = html2pdf().set(opt).from(element);
+    const pdfBlob = await worker.outputPdf("blob");
+    const formData = new FormData();
+    formData.append("file", pdfBlob, "resume.pdf");
+    const res = await uploadResumePdf(resumeId, formData);
+
+    if (res.data) {
+      console.log(res);
+      setResumeUrl(res.data.url);
+      toast.success("Resume pdf uploaded successfully.");
+    }
+    if (uploadResumePdfError) {
+      toast.error("Error uploading resume pdf.");
+    }
   };
 
   return (
@@ -48,18 +87,35 @@ function ViewResume() {
             <RWebShare
               data={{
                 text: "Checkout my awesome resume generated using AI.",
-                url: base_url,
-                title: resumeInfo?.firstName+" "+resumeInfo?.lastName+" Resume",
+                url: resumeUrl || "https://placeholder.com", // fallback URL
+                title:
+                  resumeInfo?.firstName +
+                  " " +
+                  resumeInfo?.lastName +
+                  " Resume",
               }}
-              onClick={() => console.log("shared successfully!")}
+              onClick={(e) => {
+                if (!resumeUrl) {
+                  e.preventDefault();
+                  toast.error("Please wait, resume is uploading...");
+                } else {
+                  console.log("shared successfully!");
+                }
+              }}
             >
-              <Button>Share 🔗</Button>
+              <Button disabled={!resumeUrl}>Share 🔗</Button>
             </RWebShare>
           </div>
         </div>
       </div>
       <div id="print-area" className="my-10 mx-10 md:mx-20 lg:mx-36">
-        <ResumePreview />
+        {loading ? (
+          <div className="flex items-center justify-center h-screen w-screen">
+            <h1 className="text-2xl font-bold">Loading...</h1>
+          </div>
+        ) : (
+          <ResumePreview resumeInfo={resumeInfo} />
+        )}
       </div>
     </ResumeInfoContext.Provider>
   );

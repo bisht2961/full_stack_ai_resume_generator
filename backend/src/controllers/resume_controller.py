@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Body, Header
+from fastapi import APIRouter
 from starlette.responses import JSONResponse
 
 from src.models.resume import ResumeBase

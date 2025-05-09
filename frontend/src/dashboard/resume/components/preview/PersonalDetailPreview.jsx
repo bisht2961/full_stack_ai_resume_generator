@@ -42,19 +42,19 @@ function PersonalDetailPreview({ resumeInfo }) {
       ) : (
         <>
           <h2
-            className="font-bold text-xl text-center"
+            className="font-bold text-2xl text-center"
             style={{ color: themeColor }}
           >
             {personal?.firstName} {personal?.lastName}
           </h2>
           <h2
-            className="text-center text-sm font-medium"
+            className="text-center text-base font-medium"
             style={{ color: themeColor }}
           >
             {personal?.jobTitle}
           </h2>
           <h2
-            className="text-center font-normal text-xs"
+            className="text-center font-normal text-sm"
             style={{ color: themeColor }}
           >
             {personal?.address}
@@ -62,13 +62,13 @@ function PersonalDetailPreview({ resumeInfo }) {
 
           <div className="flex justify-between">
             <h2
-              className="font-normal text-xs"
+              className="font-normal text-sm"
               style={{ color: themeColor }}
             >
               {personal?.phone}
             </h2>
             <h2
-              className="font-normal text-xs"
+              className="font-normal text-sm"
               style={{ color: themeColor }}
             >
               {personal?.email}

@@ -17,7 +17,7 @@ function SkillsPreview({ resumeInfo }) {
   return (
     <div className="my-6">
       <h2
-        className="text-center font-bold text-sm mb-2"
+        className="text-center font-bold text-base mb-2"
         style={{ color: themeColor }}
       >
         Skills
@@ -32,7 +32,7 @@ function SkillsPreview({ resumeInfo }) {
               isEmpty ? "text-gray-400 italic" : ""
             }`}
           >
-            <h2 className="text-xs">{skill?.name}</h2>
+            <h2 className="text-sm">{skill?.name}</h2>
             <div className="h-2 bg-gray-200 w-[120px]">
               <div
                 className="h-2"

@@ -38,6 +38,13 @@ function ThemeColor() {
   const {createUpdateResume} = useResumeApi();
   const [open, setOpen] = useState(false); 
   
+  useEffect(()=>{
+    if(resumeInfo?.resume?.themeColor){
+      setThemeColor(resumeInfo.resume.themeColor)
+    }else{
+      setThemeColor(colors[0])
+    }
+  },[])
 
   const onColorSelect = async(color)=>{
     setThemeColor(color);
@@ -52,13 +59,7 @@ function ThemeColor() {
 
   }
 
-  useEffect(()=>{
-    if(resumeInfo?.resume?.themeColor){
-      setThemeColor(resumeInfo.resume.themeColor)
-    }else{
-      setThemeColor(colors[0])
-    }
-  },[])
+
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

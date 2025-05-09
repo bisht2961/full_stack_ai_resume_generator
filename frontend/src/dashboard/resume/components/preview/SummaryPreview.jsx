@@ -6,7 +6,7 @@ function SummaryPreview({ resumeInfo }) {
 
   return (
     <p
-      className={`text-xs text-justify ${
+      className={`text-sm text-justify ${
         isEmpty ? 'text-gray-400 italic' : ''
       }`}
     >

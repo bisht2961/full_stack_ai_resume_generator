@@ -19,9 +19,9 @@ import {
   UpdateEducation,
   DeleteEducationById,
   UpdateSkills,
-  DeleteSkillsById
+  DeleteSkillsById,
+  UploadResumePdf
 } from "../../services/resumeService";
-import { use } from "react";
 
 export const useResumeApi = () => {
 
@@ -47,6 +47,7 @@ export const useResumeApi = () => {
   const deleteEducation = useApi(DeleteEducationById);
   const updateSkills = useApi(UpdateSkills);
   const deleteSkills = useApi(DeleteSkillsById);
+  const uploadResumePdf = useApi(UploadResumePdf);
 
   return {
     updatePersonalInfo: updatePersonalInfo.callApi,
@@ -101,5 +102,8 @@ export const useResumeApi = () => {
     deleteResume: deleteResume.callApi,
     deleteResumeLoading: deleteResume.loading,
     deleteResumeError: deleteResume.error,
+    uploadResumePdf: uploadResumePdf.callApi,
+    uploadResumePdfLoading: uploadResumePdf.loading,
+    uploadResumePdfError: uploadResumePdf.error,
   };
 };

@@ -11,7 +11,7 @@ function EduPreview({ resumeInfo }) {
   return (
     <div className="my-6">
       <h2
-        className="text-center font-bold text-sm mb-2"
+        className="text-center font-bold text-base mb-2"
         style={{ color: themeColor }}
       >
         Education
@@ -33,18 +33,18 @@ function EduPreview({ resumeInfo }) {
         educationList.map((edu, index) => (
           <div key={index} className="my-5">
             <h2
-              className="text-sm font-bold"
+              className="text-base font-bold"
               style={{ color: themeColor }}
             >
               {edu?.universityName}
             </h2>
-            <h2 className="text-xs flex justify-between">
+            <h2 className="text-sm flex justify-between">
               {edu?.degree} in {edu?.major}
               <span>
                 {edu?.startDate} - {edu?.endDate}
               </span>
             </h2>
-            <p className="text-xs my-2">{edu?.description}</p>
+            <p className="text-sm my-2">{edu?.description}</p>
           </div>
         ))
       )}

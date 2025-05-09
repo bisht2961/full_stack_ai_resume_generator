@@ -7,10 +7,8 @@ export const UpdateResume = (data) =>
 export const GetAllResume = (userEmail) =>
   apiWrapper(axiosClient.get(`/resumes/fetch/all/${userEmail}`));
 
-
 export const GetPersonalInfo = (resume_id) =>
   apiWrapper(axiosClient.get(`/personal-info/user/resume/${resume_id}`));
-
 
 export const UpdatePersonalInfoDetail = (data) =>
   apiWrapper(axiosClient.post('/personal-info/update', data));
@@ -63,3 +61,9 @@ export const UpdateSkills = (data) =>
 export const DeleteSkillsById = (skill_id) =>
   apiWrapper(axiosClient.delete(`/skills/delete/${skill_id}`));
 
+export const UploadResumePdf = (resumeId, data) =>
+  apiWrapper(axiosClient.post(`/upload/resume/${resumeId}`, data,{
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  }));
