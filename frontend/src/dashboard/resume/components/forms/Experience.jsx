@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import RichTextEditor from "../RichTextEditor";
 import { LoaderCircle } from "lucide-react";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -19,6 +18,8 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
+import RichTextEditorGeneric from "../RichTextEditorGeneric";
+import { createInputExperience } from "../../../../utils/utils";
 
 function Experience({ enableNext }) {
   const { resumeId } = useParams();
@@ -28,6 +29,8 @@ function Experience({ enableNext }) {
     updateExperienceError,
     deleteExperience,
     deleteExperienceError,
+    generateAiDescription,
+    regenerateAiDescription,
   } = useResumeApi();
   const {
     experienceList,
@@ -41,14 +44,21 @@ function Experience({ enableNext }) {
     updateExperienceContext(index, name, value);
   };
 
-  const handleRickTextEditor = (event, name, index) => {
+  const handleRichTextEditor = (event, name, index) => {
     updateExperienceContext(index, name, event.target.value);
   };
+
+  const validationChecks = [
+    { field: "title", message: "Please add position title first." },
+    { field: "companyName", message: "Please add company name first." },
+    { field: "workSummary", message: "Please provide some work summary" }
+  ];
 
   const removeExperience = async (index) => {
     setLoading(true);
     if (experienceList[index]?.experienceId) {
-      const res = await deleteExperience(experienceList[index]?.educationId);
+      // console.log("experience ", experienceList[index]);
+      const res = await deleteExperience(experienceList[index]?.experienceId);
       if (res.data) {
         setLoading(false);
         deleteExperienceContext(index);
@@ -73,11 +83,11 @@ function Experience({ enableNext }) {
       currentlyWorking: String(data.currentlyWorking || false),
     }));
 
-    console.log("data", data);
+    // console.log("data", data);
     const res = await updateExperience(resumeId, data);
 
     if (res.data) {
-      console.log(res.data);
+      // console.log(res.data);
       setLoading(false);
       toast.success("Experience updated successfully");
     }
@@ -201,11 +211,24 @@ function Experience({ enableNext }) {
               </div>
 
               <div className="col-span-2">
-                <RichTextEditor
+                {/* <RichTextEditor
                   index={index}
                   onRichTextEditorChange={(event) =>
-                    handleRickTextEditor(event, "workSummary", index)
+                    handleRichTextEditor(event, "workSummary", index)
                   }
+                /> */}
+                <RichTextEditorGeneric
+                  label={"Summary"}
+                  index={index}
+                  dataList={experienceList}
+                  fieldName="workSummary"
+                  onRichTextEditorChange={(event) =>
+                    handleRichTextEditor(event, "workSummary", index)
+                  }
+                  validationChecks={validationChecks}
+                  generateApi={generateAiDescription}
+                  regenerateApi={regenerateAiDescription}
+                  inputData={createInputExperience(experience)}
                 />
               </div>
             </div>

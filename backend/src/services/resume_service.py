@@ -6,6 +6,7 @@ from src.services.education_service import delete_education
 from src.services.experience_service import delete_experience
 from src.services.skills_service import delete_skill
 from src.services.summary_service import delete_summary
+from src.services.achievement_service import delete_achievement
 
 supabase: Client = create_client(SUPABASE_URL,SUPABASE_KEY)
 
@@ -27,6 +28,7 @@ def delete_resume_by_id(resume_id):
     delete_experience(resume_id)
     delete_skill(resume_id)
     delete_summary(resume_id)
+    delete_achievement(resume_id)
     delete = supabase.table(RESUMES_TABLE).delete().eq('id', resume_id).execute()
     if delete.data:
         return {"message": "Resume deleted successfully", "deleted": delete.data[0]}

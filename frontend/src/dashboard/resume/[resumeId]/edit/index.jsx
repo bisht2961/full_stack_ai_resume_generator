@@ -4,33 +4,44 @@ import FormSection from "../../components/FormSection";
 import ResumePreview from "../../components/ResumePreview";
 import { ResumeInfoContext } from "@/context/ResumeInfoContext";
 import { useResumeApi } from "../../../../hooks/useResumeApi";
-import {getResumeInfo} from "@/utils/resumeUtils";
+import { getResumeInfo } from "@/utils/resumeUtils";
 import { LoaderCircle } from "lucide-react";
 
 function EditResume() {
-  
-  const {resumeId} = useParams();
+  const { resumeId } = useParams();
   const [resumeInfo, setResumeInfo] = useState();
-  const { getResume,getPersonalInfo ,getExperienceById, getSkillsById, getEducationById,getSummaryById } = useResumeApi()
+  const {
+    getResume,
+    getPersonalInfo,
+    getExperienceById,
+    getSkillsById,
+    getEducationById,
+    getSummaryById,
+    getAllAchievements,
+    getAllProjects
+  } = useResumeApi();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     // console.log(resumeId)
-    resumeId&&fetchResumeInfo();
+    resumeId && fetchResumeInfo();
   }, []);
-
 
   const fetchResumeInfo = async () => {
     try {
       setLoading(true);
-      const data = await getResumeInfo({resumeId,
+      const data = await getResumeInfo({
+        resumeId,
         getResume,
         getPersonalInfo,
         getExperienceById,
         getEducationById,
         getSkillsById,
-        getSummaryById});
-      // console.log(data)
+        getSummaryById,
+        getAllAchievements,
+        getAllProjects
+      });
+      console.log(data)
       setResumeInfo(data);
       setLoading(false);
     } catch (err) {
@@ -40,7 +51,7 @@ function EditResume() {
   };
 
   return (
-    <ResumeInfoContext.Provider value={{resumeInfo, setResumeInfo}}>
+    <ResumeInfoContext.Provider value={{ resumeInfo, setResumeInfo }}>
       {loading ? (
         <div className="flex items-center justify-center h-screen w-screen">
           <LoaderCircle className="animate-spin" size={50} color="#000" />

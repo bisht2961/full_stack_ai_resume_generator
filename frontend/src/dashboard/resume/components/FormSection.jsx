@@ -6,15 +6,15 @@ import Summary from "./forms/Summary";
 import Experience from "./forms/Experience";
 import Education from "./forms/Education";
 import Skills from "./forms/Skills";
+import Achievement from "./forms/Achievement";
 import { Link, Navigate, useParams } from "react-router-dom";
 import ThemeColor from "./ThemeColor";
-
-
+import Project from "./forms/Project";
 
 function FormSection() {
   const [activeFormIndex, setActiveFormIndex] = useState(1);
   const [enableNext, setEnableNext] = useState(true);
-  const {resumeId} = useParams();
+  const { resumeId } = useParams();
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -60,27 +60,31 @@ function FormSection() {
         <Summary enableNext={(v) => setEnableNext(v)} />
       )}
 
-      {/* Experience */}
-
-      {activeFormIndex == 3 && (
-        <Experience enableNext={(v) => setEnableNext(v)} />
-      )}
-
       {/* Education */}
-      {activeFormIndex == 4 && (
+      {activeFormIndex == 3 && (
         <Education enableNext={(v) => setEnableNext(v)} />
       )}
 
-      {/* Skills */}
-      {activeFormIndex == 5 && <Skills enableNext={(v) => setEnableNext(v)} />}
+      {/* Experience */}
+      {activeFormIndex == 4 && (
+        <Experience enableNext={(v) => setEnableNext(v)} />
+      )}
 
       {/* Projects */}
+      {activeFormIndex == 5 && <Project enableNext={(v) => setEnableNext(v)} />}
 
-      {/* Certifications */}
+      {/* Skills */}
+      {activeFormIndex == 6 && <Skills enableNext={(v) => setEnableNext(v)} />}
 
       {/* Achievements */}
+      {activeFormIndex == 7 && (
+        <Achievement enableNext={(v) => setEnableNext(v)} />
+      )}
 
-      {activeFormIndex == 6 && <Navigate to={"/resume-download-share/"+resumeId+"/view"} />}
+      {/* Preview */}
+      {activeFormIndex == 8 && (
+        <Navigate to={"/resume-download-share/" + resumeId + "/view"} />
+      )}
     </div>
   );
 }

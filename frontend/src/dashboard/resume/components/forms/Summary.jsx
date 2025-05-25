@@ -1,10 +1,8 @@
 import { Textarea } from "@/components/ui/textarea";
 import React, { useContext, useEffect, useState } from "react";
-import GlobalApi from "../../../../../services/GlobalApi";
 import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Brain, LoaderCircle } from "lucide-react";
-import { AIChatSession } from "../../../../../services/AIModel";
 import { toast } from "sonner";
 import { useResumeApi } from "../../../../hooks/useResumeApi";
 import useSummary from "@/hooks/useSummary";

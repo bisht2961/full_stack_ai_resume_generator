@@ -14,13 +14,13 @@ def update_education_resume(education: Education):
     return res.data[0]
 
 def add_eduction_resume(education,resume_id):
-    print(education)
+    # print(education)
     edu_resume_map = {
         "resume_id": resume_id,
         "education_id": education['id']
     }
     res = supabase.table(RESUME_EDUCATION).insert(edu_resume_map).execute()
-    return res.data[0]['id']
+    return res.data[0]
 
 def get_education_detail(resume_id):
     res = supabase.table(RESUME_EDUCATION).select('*').eq('resume_id',resume_id).execute()

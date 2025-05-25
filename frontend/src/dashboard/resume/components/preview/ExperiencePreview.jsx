@@ -1,6 +1,6 @@
 import React from "react";
 import useExperience from "../../../../hooks/useExperience";
-import DOMPurify from "dompurify";
+
 
 function ExperiencePreview({ resumeInfo }) {
   // const experienceList = resumeInfo?.experience || [];
@@ -12,6 +12,8 @@ function ExperiencePreview({ resumeInfo }) {
   const isEmpty =
     experienceList.length === 0 ||
     experienceList.every((exp) => !exp.title?.trim());
+
+
 
   return (
     <div className="my-6">
@@ -66,7 +68,7 @@ function ExperiencePreview({ resumeInfo }) {
                     className="text-sm my-2 prose prose-sm w-full max-w-none font-normal leading-relaxed font-['Inter'] text-gray-800"
                     dangerouslySetInnerHTML={{ __html: exp.workSummary }}
                   />
-                )}
+                )} 
               </div>
             )
         )

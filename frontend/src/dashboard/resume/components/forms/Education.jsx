@@ -17,6 +17,7 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
+import { toast } from "sonner";
 
 function Education({ enableNext }) {
   const { resumeId } = useParams();
@@ -46,9 +47,11 @@ function Education({ enableNext }) {
     const res = await updateEducation(resumeId, data);
     if (res.data) {
       console.log("Education updated successfully", res.data);
+      toast.success("Education updated successfully");
       setLoading(false);
     } else {
       setLoading(false);
+      toast.error("Something went wrong while updating education");
       console.error(
         "Something went wrong while updating education",
         updateEducationError
@@ -141,9 +144,9 @@ function Education({ enableNext }) {
               <div>
                 <label>Major</label>
                 <Input
-                  name="fieldOfStudy"
+                  name="Major"
                   onChange={(e) => handleChange(e, index)}
-                  defaultValue={education?.fieldOfStudy}
+                  defaultValue={education?.major}
                 />
               </div>
               <div>

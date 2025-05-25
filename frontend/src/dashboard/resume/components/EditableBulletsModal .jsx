@@ -18,12 +18,13 @@ import {
     onRemove,
     onSave,
     onRegenerate,
+    label
   }) => {
     return (
       <Dialog open={open} onOpenChange={onClose}>
         <DialogContent className="max-w-lg">
           <DialogHeader>
-            <DialogTitle>Edit Work Summary Bullets</DialogTitle>
+            <DialogTitle>Edit {label} Bullets</DialogTitle>
           </DialogHeader>
   
           <div className="space-y-2 max-h-[60vh] overflow-y-auto">
@@ -54,7 +55,7 @@ import {
               <Button variant="secondary" onClick={onClose}>
                 Cancel
               </Button>
-              <Button onClick={onSave}>Save Summary</Button>
+              <Button onClick={onSave}>Save {label} </Button>
             </div>
           </DialogFooter>
         </DialogContent>

@@ -16,12 +16,12 @@ def add_or_update_experience(resume_id:int, experiences: List[Experience]):
     try:
         res = []
         for exp in experiences:
-            print(exp)
+            # print(exp)
             if exp.id:
-                print("Updating ")
+                # print("Updating ")
                 res.append(update_experience_info(exp))
             else:
-                print("Adding")
+                # print("Adding")
                 res.append(add_experience_info(exp, resume_id))
         return JSONResponse(res)
     except ValueError:

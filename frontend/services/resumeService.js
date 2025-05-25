@@ -40,11 +40,11 @@ export const UpdateResumeSummary = (data) =>
 export const UpdateExperienceResume = (resumeId,data) =>
   apiWrapper(axiosClient.post(`/experience/add/${resumeId}`, data));
 
-export const GetAIExperience = (experience) =>
-  apiWrapper(axiosClient.post(`/ai/experience`,experience));
+export const GenerateAIDescription = (input) =>
+  apiWrapper(axiosClient.post(`/ai/generate`, input));
 
-export const RegenerateAIExperience = (experience) =>
-  apiWrapper(axiosClient.post(`/ai/regenerate`,experience));
+export const RegenerateAIDescription = (input) =>
+  apiWrapper(axiosClient.post(`/ai/regenerate`, input));
 
 export const DeleteExperienceById = (experience_id) =>
   apiWrapper(axiosClient.delete(`/experience/delete/${experience_id}`));
@@ -67,3 +67,21 @@ export const UploadResumePdf = (resumeId, data) =>
       'Content-Type': 'multipart/form-data'
     }
   }));
+
+export const GetAllAchievements = (resumeId) =>
+  apiWrapper(axiosClient.get(`/achievements/fetch/all/${resumeId}`));
+
+export const AddUpdateAchievements = (resume_id,data) =>
+  apiWrapper(axiosClient.post(`/achievements/add/${resume_id}`, data));
+
+export const DeleteAchievementsById = (achievement_id) =>
+  apiWrapper(axiosClient.delete(`/achievements/delete/${achievement_id}`));
+
+export const UpdateProject = (data) =>
+  apiWrapper(axiosClient.post(`/projects/add`, data));
+
+export const GetAllProjects = (resumeId) =>
+  apiWrapper(axiosClient.get(`/projects/fetch/all/${resumeId}`));
+
+export const DeleteProjectById = (project_id) =>
+  apiWrapper(axiosClient.delete(`/projects/delete/${project_id}`));

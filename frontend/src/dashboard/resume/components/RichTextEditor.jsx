@@ -18,7 +18,7 @@ import { toast } from "sonner";
 import { useResumeApi } from "../../../hooks/useResumeApi";
 import useExperience from "../../../hooks/useExperience";
 import EditableBulletsModal from "./EditableBulletsModal ";
-import { extractExperienceText } from "../../../utils/utils";
+import { extractText } from "../../../utils/utils";
 
 const validation_checks = [
   { field: "title", message: "Please add position title first." },
@@ -118,10 +118,10 @@ function RichTextEditor({ index, onRichTextEditorChange }) {
     }
     
   };
-
+  
   const regenerateSummaryWithAi = async () => {
     setLoading(true);
-    const exper_str = extractExperienceText(value);
+    const exper_str = extractText(value);
     const data = {
       experience_str: exper_str
     };

@@ -1,96 +1,157 @@
-from langchain_google_genai import ChatGoogleGenerativeAI
-from src.config.env_config import VERTEX_API_KEY
-from langchain_core.prompts import ChatPromptTemplate
-import re
+from src.config.env_config import VERTEX_API_KEY,GROQ_API_KEY
 import json
-from bs4 import BeautifulSoup
+from groq import Groq
 
-llm = ChatGoogleGenerativeAI(
-    api_key=VERTEX_API_KEY,
-    model="gemini-1.5-pro",
-    temperature=1,
-    max_retries=2,
-)
-summary_prompt_template = """
-You are a helpful ai assistant that helps people write ATS friendly resume summaries based on the job role.
-Make sure to include technical and soft skill required for the job role. 
-Job Title: {jobTitle}, based on the job title provide sample summaries for experience as a Fresher(0-1 years), Mid-level(2-5 years) and High-level(5+ years) experience.
-Output in the following JSON format:
- {{
-    summary: summary
-    experience_level: experience
- }}
+
+client = Groq(api_key=GROQ_API_KEY)
+summary_tool = [
+    {
+        "type": "function",
+        "function": {
+            "name": "generate_resume_summaries",
+            "description": "Generate resume summaries for different experience levels",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "summaries": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "summary": {"type": "string"},
+                                "experience_level": {
+                                    "type": "string",
+                                    "enum": ["Fresher", "Mid-level", "High-level"]
+                                }
+                            },
+                            "required": ["summary", "experience_level"]
+                        }
+                    }
+                },
+                "required": ["summaries"]
+            }
+        }
+    }
+]
+groq_tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "handle_resume_bullets",
+            "description": "Generates or rewrites resume experience/project description bullet points as plain text based on action type",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "action_type": {
+                        "type": "string",
+                        "enum": ["generate", "regenerate"],
+                        "description": "Whether the response is for newly generated or regenerated bullet points"
+                    },
+                    "bullets": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of bullet points in plain text"
+                    }
+                },
+                "required": ["action_type", "bullets"]
+            }
+        }
+    }
+]
+system_prompt = """
+You are a helpful AI assistant that helps generate or rewrite resume experience or project description bullet points.
+
+Instructions:
+- If asked to 'generate', create 5–7 resume bullet points based on the provided input.
+- If asked to 'regenerate', rewrite the given bullet points or experience/project description using different action verbs while maintaining the original meaning.
+- Each bullet point should be concise, ATS-friendly, and reflect accomplishments or responsibilities.
+- Output must be a JSON object with two fields: 
+  - "action_type": either "generate" or "regenerate"
+  - "bullets": an array of plain text bullet points
 """
-experience_prompt_template = """
-You are a helpful ai assistant that helps in writing ATS friendly experiences.
-Based on the experience provided, give me 5-7 bullet points to include in the resume.
-Experience: {experience_line}
-Output the bullet points in HTML tags.
 
-"""
 
-regenerate_experience_prompt_template = """
-You are a helpful ai assistant that helps in writing ATS friendly experiences.
-Based on the sample experiences provided re write the experience using unique and different action words which are ATS friendly.
-Experience: {experience_line}
-Output the bullet points in HTML tags.
 
-"""
 
-def get_summary(title: str):
-    prompt = ChatPromptTemplate.from_messages([
-        ('system',summary_prompt_template),
-        ('human','{jobTitle}')
-    ])
-
-    chain = prompt | llm
-    summary = chain.invoke({
-        'jobTitle': title
-    }).content
-    # print(summary)
-    return parse_llm_summary_output(summary)
-
-def parse_llm_summary_output(llm_response: str):
-    """
-    Cleans and parses the LLM output to extract summary and experience info.
-    Removes markdown formatting (e.g., ```json ... ```) if present.
-    """
-    cleaned_response = re.sub(r"```json|```", "", llm_response).strip()
-
+def get_summary_groq(title:str):
     try:
-        parsed = json.loads(cleaned_response)
-        return parsed
+        chat_completion = client.chat.completions.create(
+            model="llama3-8b-8192",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a helpful assistant that returns structured JSON with resume summaries for various experience levels."
+                },
+                {
+                    "role": "user",
+                    "content": f"Generate resume summaries for the job title '{title}' for three levels: Fresher, Mid-level, and High-level. Focus on technical and soft skills relevant to the role."
+                }
+            ],
+            tools=summary_tool,
+            tool_choice={"type": "function", "function": {"name": "generate_resume_summaries"}}
+        )
+        raw_args = chat_completion.choices[0].message.tool_calls[0].function.arguments
+        structured_output = json.loads(raw_args)
+        print(structured_output['summaries'])
+        return structured_output["summaries"]
+    except Exception as e:
+        print(f"Error: {str(e)}")
 
-    except json.JSONDecodeError as e:
-        print("JSON decode error:", e)
-        return []
+def get_ai_description_groq(user_input:str):
+    try:
+        user_prompt = f"""
+        action_type: "generate"
+        Input: {user_input}
+        """
 
-def get_experience(experience:str):
-    prompt = ChatPromptTemplate.from_messages([
-        ("system", experience_prompt_template),
-        ('human','{experience_line}')
-    ])
-    chain = prompt | llm
-    llm_response = chain.invoke({
-        'experience_line': experience
-    })
+        chat_completion = client.chat.completions.create(
+            model="llama3-8b-8192",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            tools=groq_tools,
+            tool_choice={"type": "function", "function": {"name": "handle_resume_bullets"}}
+        )
 
-    return parse_llm_experience_output(llm_response.content)
+        # Extract structured bullet points
+        response = chat_completion.choices[0].message
 
-def get_regenerated_experience(experience:str):
-    prompt = ChatPromptTemplate.from_messages([
-        ("system", regenerate_experience_prompt_template),
-        ('human', '{experience_line}')
-    ])
-    chain = prompt | llm
-    llm_response = chain.invoke({
-        'experience_line': experience
-    })
-    return parse_llm_experience_output(llm_response.content)
+        # If tool_call succeeded
+        if response.tool_calls:
+            arguments = response.tool_calls[0].function.arguments
+            data = json.loads(arguments)
+            return data["bullets"]
+        else:
+            # Fallback: Try extracting directly from content
+            print("No tool call, content returned:")
+            print(response.content)
+    except Exception as e:
+        print(f"Error: {str(e)}")
 
-def parse_llm_experience_output(llm_response:str):
-    # print(llm_response)
-    cleaned_response = re.sub(r"```html|```","",llm_response).strip()
-    # soup = BeautifulSoup(f"<ul>{cleaned_response}</ul>", "html.parser")
-    # bullet_list = "\n".join([f"• {li.get_text(strip=True)}" for li in soup.find_all("li")])
-    return cleaned_response
+def get_regenerate_ai_description_groq(user_input:str):
+    try:
+        user_prompt = f"""
+               action_type: "generate"
+               Input: {user_input}
+               """
+        chat_completion = client.chat.completions.create(
+            model="llama3-8b-8192",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            tools=groq_tools,
+            tool_choice={"type": "function", "function": {"name": "handle_resume_bullets"}}
+        )
+
+        # Extract structured bullet points
+        arguments = chat_completion.choices[0].message.tool_calls[0].function.arguments
+        print(arguments)
+        data = json.loads(arguments)
+        print(data["bullets"])
+        return data["bullets"]
+    except Exception as e:
+        print(f"Error: {str(e)}")

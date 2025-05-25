@@ -41,3 +41,17 @@ def remove_achievement_info(achievement_id:int):
         return {"message": "Experience deleted successfully", "deleted": delete_res.data[0]}
     else:
         raise ValueError("Experience not found or already deleted")
+
+def delete_achievement(resume_id:int):
+
+    achievements = supabase.table(RESUME_ACHIEVEMENTS).select('*').eq('resume_id',resume_id).execute()
+    if achievements.data and len(achievements.data[0]) > 0:
+        for achievement in achievements:
+            delete = supabase.table(ACHIEVEMENTS_TABLE).delete().eq('id',achievement.id).execute()
+            if not delete.data:
+                raise Exception("Failed to delete education")
+
+    delete = supabase.table(RESUME_ACHIEVEMENTS).delete().eq('resume_id',resume_id).execute()
+    if not delete.data:
+        raise Exception("Failed to delete education")
+    return {"message": "Achievement deleted successfully"}

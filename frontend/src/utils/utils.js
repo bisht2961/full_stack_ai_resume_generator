@@ -48,10 +48,72 @@ export const mapSkills = (data) => (data.map((item) => ({
     rating: item.rating,
 })));
 
-export const extractExperienceText=(htmlString)=>{
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlString, "text/html");
-    const listItems = doc.querySelectorAll("li");
+export const mapAchievements = (data) => (data.map((item) => ({
+    id: item.id,
+    achievementId: item.id,
+    title: item.title,
+    description: item.description,
+    link: item.link,
+})));
+
+export const mapProjects = (data) => (data.map((item) => ({
+    id: item.id,
+    projectId: item.id,
+    title: item.title,
+    description: item.description,
+    link: item.link? item.link : "",
+})));
+
+export const extractText = (htmlString) => {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlString, "text/html");
+
+  // First try to extract list items
+  const listItems = doc.querySelectorAll("li");
+  if (listItems.length > 0) {
     const experiences = Array.from(listItems).map((li) => li.textContent.trim());
-    return experiences.join("\n")
+    return experiences.join("\n");
   }
+
+  // If no list items, fall back to extracting text from paragraphs or body
+  const bodyText = doc.body.textContent || "";
+  return bodyText.trim();
+};
+
+export const createInputExperience = (data) => {
+    return `Position: ${data.title}, Company: ${
+        data.companyName
+      }, Start Date: ${data.startDate}, End Date: ${
+        data.endDate || "Currently Working"
+      }`;
+};
+
+export const checkValidations = (validationChecks,dataList,index) => {
+  for (const { field, message } of validationChecks) {
+    const value = dataList[index]?.[field];
+
+    // Handle string inputs (empty or whitespace-only)
+    if (typeof value === "string" && value.trim() === "") {
+      return { valid: false, message };
+    }
+
+    // Handle null, undefined, or other falsy non-zero values
+    if (value === null || value === undefined) {
+      return { valid: false, message };
+    }
+
+    // Optionally: Reject empty arrays or objects
+    if (Array.isArray(value) && value.length === 0) {
+      return { valid: false, message };
+    }
+    if (
+      typeof value === "object" &&
+      !Array.isArray(value) &&
+      Object.keys(value).length === 0
+    ) {
+      return { valid: false, message };
+    }
+  }
+
+  return { valid: true };
+};

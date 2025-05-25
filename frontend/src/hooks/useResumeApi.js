@@ -13,14 +13,21 @@ import {
   GetAISummary,
   UpdateResumeSummary,
   UpdateExperienceResume,
-  GetAIExperience,
+  GenerateAIDescription,
   DeleteExperienceById,
-  RegenerateAIExperience,
+  RegenerateAIDescription,
   UpdateEducation,
   DeleteEducationById,
   UpdateSkills,
   DeleteSkillsById,
-  UploadResumePdf
+  UploadResumePdf,
+  GetAllAchievements,
+  AddUpdateAchievements,
+  DeleteAchievementsById,
+  UpdateProject,
+  DeleteProjectById,
+  GetAllProjects,
+  
 } from "../../services/resumeService";
 
 export const useResumeApi = () => {
@@ -40,14 +47,20 @@ export const useResumeApi = () => {
   const fetchAISummary = useApi(GetAISummary);
   const updateSummary = useApi(UpdateResumeSummary);
   const updateExperience = useApi(UpdateExperienceResume);
-  const getAIExperience = useApi(GetAIExperience);
+  const generateAiDescription = useApi(GenerateAIDescription);
   const deleteExperience = useApi(DeleteExperienceById)
-  const getRegenerateExperience = useApi(RegenerateAIExperience);
+  const regenerateAiDescription = useApi(RegenerateAIDescription);
   const updateEducation = useApi(UpdateEducation);
   const deleteEducation = useApi(DeleteEducationById);
   const updateSkills = useApi(UpdateSkills);
   const deleteSkills = useApi(DeleteSkillsById);
   const uploadResumePdf = useApi(UploadResumePdf);
+  const getAllAchievements = useApi(GetAllAchievements);
+  const addUpdateAchievements = useApi(AddUpdateAchievements);
+  const deleteAchievements = useApi(DeleteAchievementsById);
+  const updateProject = useApi(UpdateProject);
+  const deleteProject = useApi(DeleteProjectById);
+  const getAllProjects = useApi(GetAllProjects);
 
   return {
     updatePersonalInfo: updatePersonalInfo.callApi,
@@ -78,15 +91,15 @@ export const useResumeApi = () => {
     updateExperience: updateExperience.callApi,
     updateExperienceLoading: updateExperience.loading,
     updateExperienceError: updateExperience.error,
-    getAIExperience: getAIExperience.callApi,
-    getAIExperienceLoading: getAIExperience.loading,
-    getAIExperienceError: getAIExperience.error,
+    generateAiDescription: generateAiDescription.callApi,
+    generateAiDescriptionLoading: generateAiDescription.loading,
+    generateAiDescriptionError: generateAiDescription.error,
     deleteExperience: deleteExperience.callApi,
     deleteExperienceError: deleteExperience.error,
     deleteExperienceLoading: deleteExperience.loading,
-    regenerateExperience: getRegenerateExperience.callApi,
-    regenerateExperienceLoading: getRegenerateExperience.loading,
-    regenerateExperienceError: getRegenerateExperience.error,
+    regenerateAiDescription: regenerateAiDescription.callApi,
+    regenerateAiDescriptionLoading: regenerateAiDescription.loading,
+    regenerateAiDescriptionError: regenerateAiDescription.error,
     updateEducation: updateEducation.callApi,
     updateEducationLoading: updateEducation.loading,
     updateEducationError: updateEducation.error,
@@ -105,5 +118,23 @@ export const useResumeApi = () => {
     uploadResumePdf: uploadResumePdf.callApi,
     uploadResumePdfLoading: uploadResumePdf.loading,
     uploadResumePdfError: uploadResumePdf.error,
+    getAllAchievements: getAllAchievements.callApi,
+    getAllAchievementsLoading: getAllAchievements.loading,
+    getAllAchievementsError: getAllAchievements.error,
+    addUpdateAchievements: addUpdateAchievements.callApi,
+    addUpdateAchievementsLoading: addUpdateAchievements.loading,
+    addUpdateAchievementsError: addUpdateAchievements.error,
+    deleteAchievements: deleteAchievements.callApi,
+    deleteAchievementsLoading: deleteAchievements.loading,
+    deleteAchievementsError: deleteAchievements.error,
+    updateProject: updateProject.callApi,
+    updateProjectLoading: updateProject.loading,
+    updateProjectError: updateProject.error,
+    deleteProject: deleteProject.callApi,
+    deleteProjectLoading: deleteProject.loading,
+    deleteProjectError: deleteProject.error,
+    getAllProjects: getAllProjects.callApi,
+    getAllProjectsLoading: getAllProjects.loading,
+    getAllProjectsError: getAllProjects.error,
   };
 };
