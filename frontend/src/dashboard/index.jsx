@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import AddResume from './components/addResume'
+import AddResume from './components/AddResume'
 import { useUser } from '@clerk/clerk-react';
 import ResumeCardItem from './components/ResumeCardItem';
 import {useResumeApi}  from '../hooks/useResumeApi';
