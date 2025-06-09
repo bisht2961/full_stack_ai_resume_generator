@@ -77,6 +77,7 @@ export const getResumeInfo = async ({
       achievements: achievementsData,
       projects: projectsData,
     };
+
   } catch (err) {
     console.error("Unexpected error:", err);
     return null; // Handle the error as needed

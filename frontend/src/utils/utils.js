@@ -1,4 +1,38 @@
 
+export const testimonials = [
+  {
+    name: "Ananya Sharma",
+    role: "Frontend Developer",
+    text: "This AI resume builder saved me hours. The suggestions were spot-on, and the templates are beautiful!",
+    avatar: "https://i.pravatar.cc/150?img=32",
+  },
+  {
+    name: "Rohan Mehta",
+    role: "Data Analyst",
+    text: "I landed 3 interviews within a week using the resume this app generated. Totally worth it!",
+    avatar: "https://i.pravatar.cc/150?img=45",
+  },
+  {
+    name: "Sarah Thomas",
+    role: "Product Manager",
+    text: "Loved how easy and intuitive the experience was. AI-generated content was accurate and powerful.",
+    avatar: "https://i.pravatar.cc/150?img=47",
+  },
+  {
+    name: "Aarav Singh",
+    role: "Backend Engineer",
+    text: "The best resume tool I've used—clean templates and really effective AI suggestions!",
+    avatar: "https://i.pravatar.cc/150?img=56",
+  },
+  {
+    name: "Emily Chen",
+    role: "UX Designer",
+    text: "Perfect for job seekers. The interface is sleek, and the results are amazing.",
+    avatar: "https://i.pravatar.cc/150?img=63",
+  },
+];
+
+
 export const mapResumeData = (data) => ({
     id: data.id,
     resumeId: data.id,

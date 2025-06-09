@@ -15,9 +15,6 @@ const Dashboard = () => {
     user&&getResumesList()
   }, [user])
 
-  /**
-    Get the list of resumes created by the user
-   */
   const getResumesList = async()=> {
     const emailAddress = user?.primaryEmailAddress.emailAddress.split('@')[0];
     const res = await getAllResumes(emailAddress);
