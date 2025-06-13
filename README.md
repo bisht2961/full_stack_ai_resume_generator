@@ -26,3 +26,43 @@ An intelligent resume builder that uses AI to generate job-ready, professional r
 
 ## 🗂 Project Structure
 
+---
+
+## ⚙️ Technologies Used
+
+**Frontend**
+- React
+- Vite
+- Tailwind CSS
+- html2pdf.js
+- react-router
+- shadcn/ui
+- Clerk Auth
+
+**Backend**
+- FastAPI
+- Supabase (Database & Storage)
+- Pydantic
+- Uvicorn
+
+**AI**
+- OpenAI or Gemini APIs (via LangChain or direct)
+
+---
+
+## 🧑‍💻 Local Setup Instructions
+
+### 1️⃣ Backend (FastAPI)
+
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # or venv\Scripts\activate on Windows
+pip install -r requirements.txt
+uvicorn src.main:app --reload
+
+cd frontend
+npm install
+npm run dev
+
+
