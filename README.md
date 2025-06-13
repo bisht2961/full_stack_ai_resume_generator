@@ -106,8 +106,8 @@ npm run dev
 ## 👨‍💻 Author
 
 **Sachin Bisht**  
-🔗 [LinkedIn](https://linkedin.com/in/your-profile)  
-📧 your.email@example.com
+🔗 [LinkedIn](https://www.linkedin.com/in/sachin-bisht01/)  
+📧 sachin.bisht@example.com
 
 ---
 
