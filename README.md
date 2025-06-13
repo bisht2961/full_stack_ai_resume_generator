@@ -94,13 +94,13 @@ npm run dev
 
 ## 📸 Screenshots
 
-![Template Preview 1](./screenshots/ui1.jpg)  
-![Template Preview 2](./screenshots/ui2.jpg)
-![Template Preview 1](./screenshots/ui3.jpg)  
-![Template Preview 2](./screenshots/ui4.jpg)
-![Template Preview 1](./screenshots/ui5.jpg)  
-![Template Preview 2](./screenshots/ui6.jpg)
-![Template Preview 1](./screenshots/ui7.jpg)  
+![Template Preview 1](./screenshots/ui1.JPG)  
+![Template Preview 2](./screenshots/ui2.JPG)
+![Template Preview 1](./screenshots/ui3.JPG)  
+![Template Preview 2](./screenshots/ui4.JPG)
+![Template Preview 1](./screenshots/ui5.JPG)  
+![Template Preview 2](./screenshots/ui6.JPG)
+![Template Preview 1](./screenshots/ui7.JPG)  
 ---
 
 ## 👨‍💻 Author
