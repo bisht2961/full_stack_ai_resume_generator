@@ -12,27 +12,24 @@ import { useResumeApi } from "@/hooks/useResumeApi";
 
 function ThemeColor() {
   const colors = [
-    "#FF5733",
-    "#33FF57",
-    "#3357FF",
-    "#FF33A1",
-    "#A133FF",
-    "#33FFA1",
-    "#FF7133",
-    "#71FF33",
-    "#7133FF",
-    "#FF3371",
-    "#33FF71",
-    "#3371FF",
-    "#A1FF33",
-    "#33A1FF",
-    "#FF5733",
-    "#5733FF",
-    "#33FF5A",
-    "#5A33FF",
-    "#FF335A",
-    "#335AFF",
-  ];
+  "#2563EB", // Blue-600
+  "#10B981", // Emerald-500
+  "#F59E0B", // Amber-500
+  "#EF4444", // Red-500
+  "#8B5CF6", // Violet-500
+  "#EC4899", // Pink-500
+  "#14B8A6", // Teal-500
+  "#3B82F6", // Blue-500
+  "#6366F1", // Indigo-500
+  "#F43F5E", // Rose-500
+  "#22C55E", // Green-500
+  "#EAB308", // Yellow-500
+  "#0EA5E9", // Sky-500
+  "#D946EF", // Fuchsia-500
+  "#A855F7", // Purple-500
+  "#FB923C", // Orange-400
+];
+
   const {resumeInfo, setResumeInfo} = useContext(ResumeInfoContext);
   const [themeColor, setThemeColor] = useState();
   const {createUpdateResume} = useResumeApi();

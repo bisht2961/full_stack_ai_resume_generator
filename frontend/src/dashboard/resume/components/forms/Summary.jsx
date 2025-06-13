@@ -54,9 +54,12 @@ function Summary({ enableNext }) {
     setLoading(true);
     const data = {
       summary: summary,
-      resumeId: params.resumeId,
-      summaryId: resume_summary?.id,
+      resumeId: params.resumeId
     };
+    if(resume_summary?.id){
+      data['summaryId'] = resume_summary?.id;
+    }
+
     const res = await updateSummary(data);
     if(res.data){
       console.log(res.data);

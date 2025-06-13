@@ -1,71 +1,22 @@
-# 🧠 AI Resume Builder
+# 🚀 AI Resume Builder
 
-An intelligent resume builder that uses AI to generate job-ready, professional resumes with customizable templates, export options, and sharing capabilities.
-
----
-
-## 📸 Preview
-
-![Template Preview 1](./screenshots/ui1.jpg)  
-![Template Preview 2](./screenshots/ui2.jpg)
-![Template Preview 1](./screenshots/ui3.jpg)  
-![Template Preview 2](./screenshots/ui4.jpg)
----
-
-## 🚀 Features
-
-- ✨ AI-generated summaries and experiences (using LLM APIs)
-- 📝 Rich Text Editor for job/project descriptions
-- 🎨 Multiple customizable resume templates
-- 📄 PDF generation using `html2pdf.js`
-- 🔗 Share resumes with public links
-- 🔒 Authenticated user sessions using Clerk
-- 📦 Backend using **FastAPI** and **Supabase** for storage and database
-- 🌐 Frontend built with **React + Vite + TailwindCSS**
+An AI-powered resume builder that helps users create, manage, and share stunning resumes with intelligent AI-generated content and beautiful templates.
 
 ---
 
-## 🗂 Project Structure
+## ✨ Features
+
+- 🤖 AI-generated work summaries & bullet points  
+- 🎨 Multiple template options & theme color picker  
+- 📄 Export resumes as PDF  
+- 🔗 Share resumes via public link  
+- ✅ Editable sections: Summary, Experience, Education, Projects, Skills, Achievements  
+- 🧠 Editable AI-generated bullet points modal  
+- 🔐 Authentication with Clerk  
 
 ---
 
-## ⚙️ Technologies Used
-
-**Frontend**
-- React
-- Vite
-- Tailwind CSS
-- html2pdf.js
-- react-router
-- shadcn/ui
-- Clerk Auth
-
-**Backend**
-- FastAPI
-- Supabase (Database & Storage)
-- Pydantic
-- Uvicorn
-
-**AI**
-- OpenAI or Gemini APIs (via LangChain or direct)
-
----
-
-## 🧑‍💻 Local Setup Instructions
-
-### 1️⃣ Backend (FastAPI)
-
-```bash
-cd backend
-python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
-pip install -r requirements.txt
-uvicorn src.main:app --reload
-
-cd frontend
-npm install
-npm run dev
-
+## 📁 Project Structure
 
 ```
 .
@@ -89,7 +40,7 @@ npm run dev
 
 ## ⚙️ Technologies Used
 
-**Frontend**
+### **Frontend**
 - React
 - Vite
 - Tailwind CSS
@@ -98,14 +49,14 @@ npm run dev
 - shadcn/ui
 - Clerk Auth
 
-**Backend**
+### **Backend**
 - FastAPI
 - Supabase (Database & Storage)
 - Pydantic
 - Uvicorn
 
-**AI**
-- OpenAI or Gemini APIs (via LangChain or direct)
+### **AI**
+- OpenAI / Gemini APIs (via LangChain or direct)
 
 ---
 
@@ -121,10 +72,6 @@ pip install -r requirements.txt
 uvicorn src.main:app --reload
 ```
 
-> API runs on `http://localhost:8000`
-
----
-
 ### 2️⃣ Frontend (Vite + React)
 
 ```bash
@@ -133,57 +80,34 @@ npm install
 npm run dev
 ```
 
-> Frontend runs on `http://localhost:5173`
+> Make sure to configure both `.env` and `.env.production` in the `frontend/` and `backend/` folders with the appropriate API URLs and secrets.
 
 ---
 
-## 🌍 Environment Setup
+### 🌐 Deployment
 
-### Frontend `.env`:
-
-```
-VITE_API_BASE_URL=http://localhost:8000
-```
-
-### Frontend `.env.production`:
-
-```
-VITE_API_BASE_URL=https://your-backend.onrender.com
-```
+- **Frontend:** Vercel / Netlify  
+- **Backend:** Render.com  
+- **Database & File Storage:** Supabase
 
 ---
 
-## 🧪 API Routes (Sample)
+## 📸 Screenshots
 
-- `POST /personal-info`
-- `POST /experience`
-- `POST /generate-summary`
-- `POST /upload-resume` (PDF)
-- `GET /resume/{resume_id}`
-
+![Template Preview 1](./screenshots/ui1.jpg)  
+![Template Preview 2](./screenshots/ui2.jpg)
+![Template Preview 1](./screenshots/ui3.jpg)  
+![Template Preview 2](./screenshots/ui4.jpg)
+![Template Preview 1](./screenshots/ui5.jpg)  
+![Template Preview 2](./screenshots/ui6.jpg)
+![Template Preview 1](./screenshots/ui7.jpg)  
 ---
 
-## 🧾 Deployment
+## 👨‍💻 Author
 
-### Frontend
-- Deployed via **Vercel** or **Netlify**
-- Set `VITE_API_BASE_URL` to Render backend URL in production
-
-### Backend
-- Deployed on **Render**
-- Add `requirements.txt`, `render.yaml`, and `start command`:
-  ```
-  uvicorn src.main:app --host 0.0.0.0 --port 10000
-  ```
-
----
-
-## 📚 Future Enhancements
-
-- Multi-language support
-- Role-based resume suggestions
-- Resume analytics
-- Drag-and-drop layout editor
+**Sachin Bisht**  
+🔗 [LinkedIn](https://linkedin.com/in/your-profile)  
+📧 your.email@example.com
 
 ---
 

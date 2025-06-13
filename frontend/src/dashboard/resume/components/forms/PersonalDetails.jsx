@@ -34,13 +34,15 @@ function PersonalDetails({ enableNext }) {
 
   const onSave = async (e) => {
     e.preventDefault();
+
     const data = {
       ...formData,
-      resumeId: parseInt(params.resumeId),
-      userId: personalInfo?.personalInfoId
-        ? parseInt(personalInfo?.personalInfoId)
-        : null,
+      resumeId: parseInt(params.resumeId)
     };
+    if(personalInfo?.personalInfoId){
+      data['personalInfoId'] = personalInfo.personalInfoId;
+    }
+    
 
     try {
       // console.log("Data to be sent: ", data);

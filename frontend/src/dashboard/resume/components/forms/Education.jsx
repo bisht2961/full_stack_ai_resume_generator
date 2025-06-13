@@ -144,7 +144,7 @@ function Education({ enableNext }) {
               <div>
                 <label>Major</label>
                 <Input
-                  name="Major"
+                  name="major"
                   onChange={(e) => handleChange(e, index)}
                   defaultValue={education?.major}
                 />

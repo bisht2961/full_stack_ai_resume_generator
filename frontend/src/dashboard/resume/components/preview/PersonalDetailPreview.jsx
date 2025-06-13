@@ -13,7 +13,7 @@ function PersonalDetailPreview({ resumeInfo }) {
     !personal?.phone &&
     !personal?.email;
 
-  const themeColor = resumeInfo?.resume?.themeColor || "#4B5563"; // Default to gray-700
+  const themeColor = resumeInfo?.resume?.themeColor || "#F7FAFC"; // Default to gray-100
 
   return (
     <div>
