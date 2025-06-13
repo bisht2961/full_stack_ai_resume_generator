@@ -1,16 +1,8 @@
 // services/axiosClient.js
 import axios from "axios";
-let baseURL;
-
-if (process.env.NODE_ENV === 'production') {
-
-  baseURL = process.env.REACT_APP_API_PROD_URL
-} else {
-  // In development, use the one from .env.local
-  baseURL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000'; // Fallback
-}
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const axiosClient = axios.create({
-  baseURL: baseURL,
+  baseURL: BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
