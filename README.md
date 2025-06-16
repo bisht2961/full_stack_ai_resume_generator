@@ -97,10 +97,9 @@ npm run dev
 ![Template Preview 1](./screenshots/ui1.JPG)  
 ![Template Preview 2](./screenshots/ui2.JPG)
 ![Template Preview 1](./screenshots/ui3.JPG)  
-![Template Preview 2](./screenshots/ui4.JPG)
-![Template Preview 1](./screenshots/ui5.JPG)  
 ![Template Preview 2](./screenshots/ui6.JPG)
-![Template Preview 1](./screenshots/ui7.JPG)  
+![Template Preview 1](./screenshots/ui5.JPG)  
+
 ---
 
 ## 👨‍💻 Author
