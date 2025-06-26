@@ -1,4 +1,4 @@
-# 🚀 AI Resume Builder
+# 🚀 SmartResume AI - Build your next resume
 
 An AI-powered resume builder that helps users create, manage, and share stunning resumes with intelligent AI-generated content and beautiful templates.
 
