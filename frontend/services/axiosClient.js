@@ -10,7 +10,7 @@ const axiosClient = axios.create({
 
 // Optional: Add interceptors here (for auth token, logging, etc.)
 axiosClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem("authToken");
+  const token = sessionStorage.getItem("access_token");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

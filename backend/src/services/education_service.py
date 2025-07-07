@@ -1,9 +1,8 @@
-from supabase import create_client, Client
-from src.config.env_config import SUPABASE_URL, SUPABASE_KEY, EDUCATION, RESUME_EDUCATION
+
+from src.config.env_config import EDUCATION, RESUME_EDUCATION
 from src.models.education import Education
-
-supabase: Client = create_client(SUPABASE_URL,SUPABASE_KEY)
-
+from src.config.supabase_config import get_supabase
+supabase = get_supabase()
 def add_education_detail(education: Education, resume_id):
     res =  supabase.table(EDUCATION).insert(education.to_dict()).execute()
     mapping = add_eduction_resume(res.data[0],resume_id)

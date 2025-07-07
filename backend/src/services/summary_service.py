@@ -1,7 +1,7 @@
-from supabase import create_client, Client
-from src.config.env_config import SUPABASE_URL, SUPABASE_KEY, RESUME_SUMMARY
+from src.config.supabase_config import get_supabase
+from src.config.env_config import  RESUME_SUMMARY
 
-supabase: Client = create_client(SUPABASE_URL,SUPABASE_KEY)
+supabase = get_supabase()
 
 def add_resume_summary(summary ):
     return supabase.table(RESUME_SUMMARY).insert(summary).execute()

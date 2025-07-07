@@ -38,7 +38,7 @@ const ProjectPreview = ({ resumeInfo }) => {
 
       {empty ? (
         <div className="my-5 text-gray-400 italic text-xs">
-          <p className="text-xs text-gray-500">
+          <div className="text-xs text-gray-500">
             {dummyProject.map((item, index) => (
               <div key={index} className="my-5">
                 <h2
@@ -52,7 +52,7 @@ const ProjectPreview = ({ resumeInfo }) => {
                 )}
               </div>
             ))}
-          </p>
+          </div>
         </div>
       ) : (
         <div className="text-xs mt-4 space-y-5">

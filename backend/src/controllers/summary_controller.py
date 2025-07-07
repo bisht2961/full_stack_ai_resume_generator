@@ -1,12 +1,14 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from starlette.responses import JSONResponse
 
+from src.config.supabase_config import verify_jwt_token
 from src.models.summary import Summary
 from src.services.summary_service import add_resume_summary, get_resume_summary, update_resume_summary
 
 summary_router = APIRouter(
     prefix='/summary',
-    tags=["Summary API"]
+    tags=["Summary API"],
+    dependencies=[Depends(verify_jwt_token)]
 )
 
 @summary_router.post('/update')

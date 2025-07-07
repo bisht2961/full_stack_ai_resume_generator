@@ -1,15 +1,17 @@
 from typing import List
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from starlette.responses import JSONResponse
 
+from src.config.supabase_config import verify_jwt_token
 from src.models.education import Education
 from src.services.education_service import (add_education_detail, get_education_detail,
                                             update_education_resume, remove_education)
 
 education_router = APIRouter(
     prefix='/education',
-    tags=['Education API']
+    tags=['Education API'],
+    dependencies=[Depends(verify_jwt_token)]
 )
 
 @education_router.post("/add/{resume_id}")

@@ -1,8 +1,8 @@
-from supabase import create_client, Client
-from src.config.env_config import SUPABASE_URL, SUPABASE_KEY, SKILLS_TABLE, RESUME_SKILLS
+from src.config.supabase_config import get_supabase
+from src.config.env_config import  SKILLS_TABLE, RESUME_SKILLS
 from src.models.skill import SkillBase
 
-supabase: Client = create_client(SUPABASE_URL,SUPABASE_KEY)
+supabase = get_supabase()
 
 def update_skill_rating(skill: SkillBase):
     res = supabase.table(RESUME_SKILLS).update({'rating':skill.rating}).eq('skill_id',skill.id).execute()

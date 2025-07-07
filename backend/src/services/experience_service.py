@@ -1,8 +1,8 @@
-from supabase import create_client, Client
-from src.config.env_config import SUPABASE_URL, SUPABASE_KEY, EXPERIENCE, RESUME_EXPERIENCE
+from src.config.supabase_config import get_supabase
+from src.config.env_config import EXPERIENCE, RESUME_EXPERIENCE
 from src.models.experience import Experience
 
-supabase: Client = create_client(SUPABASE_URL,SUPABASE_KEY)
+supabase = get_supabase()
 
 def update_experience_info(data: Experience):
     res = supabase.table(EXPERIENCE).upsert(data.to_dict()).execute()

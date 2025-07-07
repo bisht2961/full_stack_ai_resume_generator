@@ -1,8 +1,8 @@
-from supabase import create_client, Client
-from src.config.env_config import SUPABASE_URL, SUPABASE_KEY, PERSONAL_INFO_TABLE
+from src.config.supabase_config import get_supabase
+from src.config.env_config import  PERSONAL_INFO_TABLE
 from src.models.personal_info import PersonalInfo
 
-supabase: Client = create_client(SUPABASE_URL,SUPABASE_KEY)
+supabase = get_supabase()
 
 def get_all_users():
     return supabase.table(PERSONAL_INFO_TABLE).select('*').execute()

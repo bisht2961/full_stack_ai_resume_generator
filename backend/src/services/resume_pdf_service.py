@@ -1,9 +1,10 @@
 import os
 from fastapi import UploadFile
-from supabase import create_client, Client
-from src.config.env_config import SUPABASE_URL,SUPABASE_KEY,UPLOAD_FOLDER,RESUME_BUCKET
+from src.config.supabase_config import get_supabase
+from src.config.env_config import UPLOAD_FOLDER,RESUME_BUCKET
 
-supabase: Client = create_client(SUPABASE_URL,SUPABASE_KEY)
+supabase = get_supabase()
+
 os.makedirs(UPLOAD_FOLDER,exist_ok=True)
 
 async def upload_resume(resume_id:int,file: UploadFile):

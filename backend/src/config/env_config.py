@@ -2,8 +2,9 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-SUPABASE_URL = os.getenv('PROJECT_URL')
-SUPABASE_KEY = os.getenv('API_KEY')
+SUPABASE_URL = os.getenv('SUPABASE_URL')
+SUPABASE_KEY = os.getenv('SUPABASE_KEY')
+SUPABASE_JWT_SECRET = os.getenv('SUPABASE_JWT_SECRET')
 PERSONAL_INFO_TABLE = os.getenv('PERSONAL_INFO_TABLE')
 SKILLS_TABLE = os.getenv('SKILLS_TABLE')
 ACHIEVEMENTS_TABLE = os.getenv('ACHIEVEMENTS_TABLE')

@@ -1,5 +1,5 @@
-from supabase import create_client, Client
-from src.config.env_config import SUPABASE_URL, SUPABASE_KEY, RESUMES_TABLE
+from src.config.supabase_config import get_supabase
+from src.config.env_config import  RESUMES_TABLE
 from src.models.resume import ResumeBase
 from src.services.persona_info_service import delete_personal_info
 from src.services.education_service import delete_education
@@ -8,7 +8,7 @@ from src.services.skills_service import delete_skill
 from src.services.summary_service import delete_summary
 from src.services.achievement_service import delete_achievement
 
-supabase: Client = create_client(SUPABASE_URL,SUPABASE_KEY)
+supabase = get_supabase()
 
 def get_all_resume_by_user_email(user_email):
     return supabase.table(RESUMES_TABLE).select('*').eq('user_email',user_email).execute()

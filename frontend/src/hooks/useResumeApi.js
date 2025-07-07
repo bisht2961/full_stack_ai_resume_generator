@@ -27,7 +27,8 @@ import {
   UpdateProject,
   DeleteProjectById,
   GetAllProjects,
-  
+  RegisterUser,
+  LoginUser
 } from "../../services/resumeService";
 
 export const useResumeApi = () => {
@@ -61,6 +62,8 @@ export const useResumeApi = () => {
   const updateProject = useApi(UpdateProject);
   const deleteProject = useApi(DeleteProjectById);
   const getAllProjects = useApi(GetAllProjects);
+  const registerUser = useApi(RegisterUser);
+  const loginUser = useApi(LoginUser);
 
   return {
     updatePersonalInfo: updatePersonalInfo.callApi,
@@ -136,5 +139,11 @@ export const useResumeApi = () => {
     getAllProjects: getAllProjects.callApi,
     getAllProjectsLoading: getAllProjects.loading,
     getAllProjectsError: getAllProjects.error,
+    registerUser: registerUser.callApi,
+    registerUserLoading: registerUser.loading,  
+    registerUserError: registerUser.error,
+    loginUser: loginUser.callApi,
+    loginUserLoading: loginUser.loading,
+    loginUserError: loginUser.error
   };
 };

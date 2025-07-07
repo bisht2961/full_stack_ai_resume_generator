@@ -1,10 +1,13 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from starlette.responses import JSONResponse
+
+from src.config.supabase_config import verify_jwt_token
 from src.services.ai_service import get_summary_groq, get_ai_description_groq, get_regenerate_ai_description_groq
 
 ai_router = APIRouter(
     prefix='/ai',
-    tags=['AI API']
+    tags=['AI API'],
+    dependencies=[Depends(verify_jwt_token)]
 )
 
 @ai_router.get('/summary/{job_title}')

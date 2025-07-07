@@ -1,8 +1,8 @@
-from supabase import create_client, Client
-from src.config.env_config import SUPABASE_URL, SUPABASE_KEY, PROJECT_TABLE
+from src.config.supabase_config import get_supabase
+from src.config.env_config import PROJECT_TABLE
 from src.models.project import Project
 
-supabase: Client = create_client(SUPABASE_URL,SUPABASE_KEY)
+supabase = get_supabase()
 
 def add_project(project: Project):
     result = supabase.table(PROJECT_TABLE).insert(project.to_dict()).execute()

@@ -1,14 +1,17 @@
 from typing import List
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from starlette.responses import JSONResponse
+
+from src.config.supabase_config import verify_jwt_token
 from src.services.projects_service import add_project,fetch_all_project,remove_project,update_project
 
 from src.models.project import Project
 
 projects_router = APIRouter(
     prefix='/projects',
-    tags=['Project Api']
+    tags=['Project Api'],
+    dependencies=[Depends(verify_jwt_token)]
 )
 
 @projects_router.post('/add')

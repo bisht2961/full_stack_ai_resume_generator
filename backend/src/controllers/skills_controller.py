@@ -1,12 +1,15 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from starlette.responses import JSONResponse
 from typing import List
+
+from src.config.supabase_config import verify_jwt_token
 from src.services.skills_service import add_skill_rating, get_skill_resume,update_skill_rating, remove_skill
 from src.models.skill import SkillBase
 
 skills_router = APIRouter(
     prefix='/skills',
-    tags=["Skills API"]
+    tags=["Skills API"],
+    dependencies=[Depends(verify_jwt_token)]
 )
 
 @skills_router.post('/add')

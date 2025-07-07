@@ -1,5 +1,5 @@
 import { Loader2, PlusSquare } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +10,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import { useResumeApi } from "../../hooks/useResumeApi";
-import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -18,32 +17,40 @@ const AddResume = () => {
 
   const [openDialog, setOpenDialog] = useState(false);
   const [resumeTitle, setResumeTitle] = useState("");
-  const {user} = useUser();
+  const [emailAddress, setEmailAddress] = useState("");
   const [loading, setLoading] = useState(false);
   const navigation = useNavigate();
   const {createUpdateResume,updateResumeError} = useResumeApi()
 
+  useEffect(() => {
+    const user_email = localStorage.getItem("email");
+    if (!user_email) {
+      navigation("/auth/sign-in");
+    }
+    setEmailAddress(user_email);
+  },[]);
+
   const onCreate = async()=>{
     setLoading(true);
-    const emailAddress = user?.primaryEmailAddress.emailAddress.split('@')[0]
+
     const data = {
       title: resumeTitle,
-      userEmail: emailAddress,
+      userEmail: emailAddress.split("@")[0],
     }
     const res = await createUpdateResume(data);
     if(res.data){
-      // console.log(res.data)
+      
       setLoading(false);
       setOpenDialog(false);
       const resumeId = res.data.data[0].id;
       navigation(`/dashboard/resume/${resumeId}/edit`)
     }
     if(updateResumeError){
-      setLoading(false);
       setOpenDialog(false);
       toast.error("Error creating resume")
     }
-    
+    setLoading(false);
+    setResumeTitle("");
   }
 
   

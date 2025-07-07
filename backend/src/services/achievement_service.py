@@ -1,8 +1,8 @@
-from supabase import create_client, Client
-from src.config.env_config import SUPABASE_URL, SUPABASE_KEY, ACHIEVEMENTS_TABLE, RESUME_ACHIEVEMENTS
+from src.config.supabase_config import get_supabase
+from src.config.env_config import ACHIEVEMENTS_TABLE, RESUME_ACHIEVEMENTS
 from src.models.achievment import Achievement
 
-supabase: Client = create_client(SUPABASE_URL,SUPABASE_KEY)
+supabase = get_supabase()
 
 def add_achievement(achievement: Achievement,resume_id:int):
     res = supabase.table(ACHIEVEMENTS_TABLE).insert(achievement.to_dict()).execute()

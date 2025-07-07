@@ -21,7 +21,7 @@ const useAchievements = () => {
         };
       });
   };
-
+  
   const removeAchievementContext = (index) => {
     setResumeInfo((prev) => {
       const updatedAchievements = [...(prev.achievements || [])];

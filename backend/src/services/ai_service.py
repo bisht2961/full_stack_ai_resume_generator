@@ -1,4 +1,4 @@
-from src.config.env_config import VERTEX_API_KEY,GROQ_API_KEY
+from src.config.env_config import GROQ_API_KEY
 import json
 from groq import Groq
 

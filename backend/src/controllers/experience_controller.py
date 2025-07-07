@@ -1,13 +1,16 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from starlette.responses import JSONResponse
 from typing import List
+
+from src.config.supabase_config import verify_jwt_token
 from src.models.experience import Experience
 from src.services.experience_service import (add_experience_info, get_experiences_resume,
                                              update_experience_info,remove_experience_info)
 
 experience_router = APIRouter(
     prefix='/experience',
-    tags=['Experience API']
+    tags=['Experience API'],
+    dependencies=[Depends(verify_jwt_token)]
 )
 
 

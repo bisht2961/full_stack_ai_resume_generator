@@ -1,11 +1,14 @@
-from fastapi import APIRouter, Body, Header
+from fastapi import APIRouter, Body, Header, Depends
 from starlette.responses import JSONResponse
+
+from src.config.supabase_config import verify_jwt_token
 from src.models.personal_info import PersonalInfo
 from src.services.persona_info_service import add_new_user, get_user_by_id, get_user_by_resume_id, update_user_info
 
 user_router = APIRouter(
     prefix='/personal-info',
-    tags=['Personal Info API']
+    tags=['Personal Info API'],
+    dependencies=[Depends(verify_jwt_token)]
 )
 
 @user_router.post('/update')

@@ -1,21 +1,43 @@
 import React from "react";
 import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
-import { UserButton, useUser } from "@clerk/clerk-react";
+import { Link,useNavigate  } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Header = () => {
-  const { user, isSignedIn } = useUser();
+ 
+  const navigate = useNavigate();
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
+  useEffect(() => {
+    const user = localStorage.getItem("email");
+    setIsSignedIn(!!user);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("email");
+    sessionStorage.removeItem("access_token");
+    sessionStorage.removeItem("refresh_token");
+    setIsSignedIn(false);
+    navigate("/auth/sign-in");
+  };
 
   return (
     <div className="p-3 px-5 flex justify-between shadow-md items-center">
-      <img src="/logo.svg" alt="Logo" max-height={100} />
-
+      <Link to="/">
+        <img
+          src="/logo.svg"
+          alt="Logo"
+          className="h-10 w-10 object-cover rounded-full hover:scale-105 transition-transform"
+        />
+      </Link>
       {isSignedIn ? (
         <div className="flex gap-2 items-center">
           <Link to={"/dashboard"}>
             <Button variant="outline">Dashboard</Button>
           </Link>
-          <UserButton />
+           <Button onClick={handleLogout} variant="destructive">
+            Logout
+          </Button>
         </div>
       ) : (
         <Link to="/auth/sign-in">

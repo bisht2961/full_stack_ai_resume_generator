@@ -1,12 +1,14 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from typing import List
 from starlette.responses import JSONResponse
+from src.config.supabase_config import verify_jwt_token
 from src.models.achievment import Achievement
 from src.services.achievement_service import update_achievement, add_achievement, fetch_achievements, remove_achievement_info
 
 achievements_router = APIRouter(
     prefix='/achievements',
-    tags=['Achievements API']
+    tags=['Achievements API'],
+    dependencies=[Depends(verify_jwt_token)]
 )
 
 @achievements_router.post('/add/{resume_id}')

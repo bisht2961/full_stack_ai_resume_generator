@@ -85,3 +85,9 @@ export const GetAllProjects = (resumeId) =>
 
 export const DeleteProjectById = (project_id) =>
   apiWrapper(axiosClient.delete(`/projects/delete/${project_id}`));
+
+export const LoginUser = (data) =>
+  apiWrapper(axiosClient.post("/auth/login", data));
+
+export const RegisterUser = (data) =>
+  apiWrapper(axiosClient.post("/auth/register", data));
