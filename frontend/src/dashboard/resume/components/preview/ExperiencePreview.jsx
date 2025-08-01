@@ -19,11 +19,11 @@ function ExperiencePreview({ resumeInfo }) {
     <div className="my-6">
       <h2
         className="text-center font-bold text-base mb-2"
-        style={{ color: themeColor }}
+        style={{ color: isEmpty ? "gray" : themeColor }}
       >
         Professional Experience
       </h2>
-      <hr style={{ borderColor: themeColor }} />
+      <hr style={{ borderColor: isEmpty ? "gray" : themeColor }} />
 
       {isEmpty ? (
         <div className="my-5 text-gray-400 italic text-xs">

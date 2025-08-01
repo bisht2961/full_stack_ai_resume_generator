@@ -12,11 +12,11 @@ function EduPreview({ resumeInfo }) {
     <div className="my-6">
       <h2
         className="text-center font-bold text-base mb-2"
-        style={{ color: themeColor }}
+        style={{ color: isEmpty ? "gray" : themeColor }}
       >
         Education
       </h2>
-      <hr style={{ borderColor: themeColor }} />
+      <hr style={{ borderColor: isEmpty ? "gray" : themeColor }} />
 
       {isEmpty ? (
         <div className="my-5 text-gray-400 italic text-xs">
@@ -33,8 +33,7 @@ function EduPreview({ resumeInfo }) {
         educationList.map((edu, index) => (
           <div key={index} className="my-5">
             <h2
-              className="text-base font-bold"
-              style={{ color: themeColor }}
+              className="text-base font-bold text-gray-600"
             >
               {edu?.universityName}
             </h2>

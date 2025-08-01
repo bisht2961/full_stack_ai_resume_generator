@@ -1,6 +1,6 @@
-from fastapi import APIRouter,HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Header
 from starlette.responses import JSONResponse
-from src.services.user_auth_service import register_user, login_user
+from src.services.user_auth_service import register_user, login_user, get_new_token
 from src.models.user_auth import UserAuth
 
 user_auth_router = APIRouter(
@@ -14,6 +14,11 @@ def register(user:UserAuth):
         return JSONResponse(register_user(user))
     except Exception as e:
         error_detail = str(e)
+        if "password not strong enough" in error_detail.lower():
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Password not strong enough"
+            )
         if "user already registered" in error_detail.lower():
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
@@ -41,3 +46,11 @@ def login(user:UserAuth):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Login failed: {error_detail}"
         )
+
+@user_auth_router.post("/refresh-token")
+def get_token(refresh_token: str = Header(...)):
+    try:
+        return get_new_token(refresh_token)
+    except Exception as e:
+        print("Token refresh failed:", str(e))
+        raise HTTPException(status_code=401, detail="Token refresh failed")

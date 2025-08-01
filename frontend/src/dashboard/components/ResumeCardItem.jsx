@@ -21,20 +21,20 @@ import { Link, useNavigate } from "react-router-dom";
 import { useResumeApi } from "../../hooks/useResumeApi";
 import { toast } from "sonner";
 
-function ResumeCardItem({ resume, refershData }) {
+function ResumeCardItem({ resume, onDelete }) {
   const navigation = useNavigate();
   const [openAlert, setOpenAlert] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const { deleteResume, deleteResumeError } = useResumeApi();
 
-  const onDelete = async () => {
+  const onDeleteClicked = async () => {
     setLoading(true);
     const res = await deleteResume(resume.id);
     if (res.data) {
       setLoading(false);
       setOpenAlert(false);
-      refershData();
+      onDelete(resume.id);
       toast.success("Resume deleted successfully");
     }
     if (deleteResumeError) {
@@ -44,11 +44,11 @@ function ResumeCardItem({ resume, refershData }) {
     }
   };
   return (
-    <div className="rounded-lg overflow-hidden shadow-md transition-transform hover:scale-[1.02]">
+    <div className="rounded-lg overflow-hidden shadow-md transition-all duration-300 hover:ring-2 hover:ring-indigo-300 hover:ring-offset-2 hover:ring-offset-white">
       {/* Clickable Resume Preview */}
       <Link to={`/dashboard/resume/${resume.id}/edit`}>
         <div
-          className="h-[280px] flex items-center justify-center bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 border-2 rounded-t-lg transition-shadow hover:shadow-lg"
+          className="h-[280px] flex items-center justify-center bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 border-2 rounded-t-lg"
           style={{ borderColor: resume?.themeColor }}
         >
           <Notebook className="w-12 h-12 text-gray-700" />
@@ -67,10 +67,13 @@ function ResumeCardItem({ resume, refershData }) {
 
         {/* Dropdown */}
         <DropdownMenu>
-          <DropdownMenuTrigger>
+          <DropdownMenuTrigger asChild>
             <MoreVertical className="h-5 w-5 text-gray-600 hover:text-gray-800 cursor-pointer" />
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-44 bg-white text-gray-800 shadow-lg border rounded-md py-1">
+          <DropdownMenuContent
+            className="w-44 bg-white text-gray-800 shadow-lg border rounded-md py-1"
+            sideOffset={4}
+          >
             <DropdownMenuCheckboxItem
               className="px-4 py-2 text-sm hover:bg-gray-100"
               onClick={() => navigation(`/dashboard/resume/${resume.id}/edit`)}
@@ -109,7 +112,7 @@ function ResumeCardItem({ resume, refershData }) {
             <AlertDialogCancel onClick={() => setOpenAlert(false)}>
               Cancel
             </AlertDialogCancel>
-            <AlertDialogAction onClick={onDelete} disabled={loading}>
+            <AlertDialogAction onClick={onDeleteClicked} disabled={loading}>
               {loading ? (
                 <Loader2Icon className="animate-spin h-4 w-4" />
               ) : (

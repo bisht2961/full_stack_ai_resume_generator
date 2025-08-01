@@ -12,6 +12,8 @@ import { useResumeApi } from "@/hooks/useResumeApi";
 
 function ThemeColor() {
   const colors = [
+  "#4B5563", // Gray-600
+  "#000000", // Black-500
   "#2563EB", // Blue-600
   "#10B981", // Emerald-500
   "#F59E0B", // Amber-500
@@ -45,6 +47,8 @@ function ThemeColor() {
 
   const onColorSelect = async(color)=>{
     setThemeColor(color);
+    console.log("Selected color:", color);
+    console.log("Resume Info:", resumeInfo);
     const data = {...resumeInfo.resume, themeColor: color};
     console.log(data)
     const res = await createUpdateResume(data);

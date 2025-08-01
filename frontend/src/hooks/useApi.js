@@ -1,6 +1,15 @@
-// hooks/useApi.js
 import { useState } from "react";
 
+/**
+ * A custom hook to standardize API calls.
+ * 
+ * @param {Function} apiFunc - The actual API function (must return a promise).
+ * @returns {{
+ *   callApi: Function,
+ *   loading: boolean,
+ *   error: any
+ * }}
+ */
 export const useApi = (apiFunc) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -10,17 +19,19 @@ export const useApi = (apiFunc) => {
     setError(null);
     try {
       const response = await apiFunc(...args);
-      if(response.error) {
-        throw(response.error);
-      }
       setLoading(false);
       return response;
     } catch (err) {
-      setError(err);
+      const normalizedError = err?.response?.data?.message || err.message || "Unknown error occurred";
+      setError(normalizedError);
       setLoading(false);
-      return null;
+      return { error: normalizedError };
     }
   };
-
-  return { callApi, loading, error };
+  
+  return {
+    callApi,
+    loading,
+    error,
+  };
 };

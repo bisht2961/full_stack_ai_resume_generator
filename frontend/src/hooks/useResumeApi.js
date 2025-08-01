@@ -28,12 +28,14 @@ import {
   DeleteProjectById,
   GetAllProjects,
   RegisterUser,
-  LoginUser
+  LoginUser,
+  extractResumeData
 } from "../../services/resumeService";
 
 export const useResumeApi = () => {
 
 
+  const extractUserInfo = useApi(extractResumeData);
   const updateResume = useApi(UpdateResume);
   const deleteResume = useApi(DeleteResumeById);
   const updatePersonalInfo = useApi(UpdatePersonalInfoDetail);
@@ -144,6 +146,9 @@ export const useResumeApi = () => {
     registerUserError: registerUser.error,
     loginUser: loginUser.callApi,
     loginUserLoading: loginUser.loading,
-    loginUserError: loginUser.error
+    loginUserError: loginUser.error,
+    extractUserInfo: extractUserInfo.callApi,
+    extractUserInfoLoading: extractUserInfo.loading,
+    extractUserInfoError: extractUserInfo.error
   };
 };

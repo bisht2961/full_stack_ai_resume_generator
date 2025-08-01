@@ -49,9 +49,8 @@ def delete_achievement(resume_id:int):
         for achievement in achievements:
             delete = supabase.table(ACHIEVEMENTS_TABLE).delete().eq('id',achievement.id).execute()
             if not delete.data:
-                raise Exception("Failed to delete education")
-
-    delete = supabase.table(RESUME_ACHIEVEMENTS).delete().eq('resume_id',resume_id).execute()
-    if not delete.data:
-        raise Exception("Failed to delete education")
+                raise Exception("Failed to delete achievement")
+        delete = supabase.table(RESUME_ACHIEVEMENTS).delete().eq('resume_id',resume_id).execute()
+        if not delete.data:
+            raise Exception("Failed to delete achievement")
     return {"message": "Achievement deleted successfully"}

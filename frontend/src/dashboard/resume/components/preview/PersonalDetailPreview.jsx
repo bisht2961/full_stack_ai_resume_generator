@@ -2,19 +2,18 @@ import React, { useEffect } from "react";
 // import usePersonalInfo from '../../../../hooks/usePersonalInfo'
 
 function PersonalDetailPreview({ resumeInfo }) {
-
+  
   const personal = resumeInfo?.personalInfo || {};
   
-  const isEmpty =
+  const isEmpty = 
     !personal?.firstName &&
     !personal?.lastName &&
     !personal?.jobTitle &&
     !personal?.address &&
     !personal?.phone &&
     !personal?.email;
-
-  const themeColor = resumeInfo?.resume?.themeColor || "#F7FAFC"; // Default to gray-100
-
+  
+  const themeColor = resumeInfo?.resume?.themeColor || "#0D0D0D"; // Default to gray-100
   return (
     <div>
       {isEmpty ? (

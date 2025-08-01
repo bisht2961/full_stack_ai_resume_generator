@@ -68,6 +68,13 @@ export const UploadResumePdf = (resumeId, data) =>
     }
   }));
 
+export const extractResumeData = (formData,userEmail) =>
+  apiWrapper(axiosClient.post(`/ai/extract/${userEmail}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }
+  }));
+
 export const GetAllAchievements = (resumeId) =>
   apiWrapper(axiosClient.get(`/achievements/fetch/all/${resumeId}`));
 
@@ -91,3 +98,4 @@ export const LoginUser = (data) =>
 
 export const RegisterUser = (data) =>
   apiWrapper(axiosClient.post("/auth/register", data));
+

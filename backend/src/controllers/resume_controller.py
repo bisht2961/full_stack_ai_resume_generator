@@ -38,7 +38,7 @@ def delete_resume(resume_id:int):
     try:
         return delete_resume_by_id(resume_id)
     except Exception as e:
-        print(f"An unexpected error occurred during resume fetch: {e}")
+        print(f"An unexpected error occurred during resume delete: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"An unexpected server error occurred."

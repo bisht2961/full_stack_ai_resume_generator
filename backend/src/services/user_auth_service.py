@@ -1,11 +1,18 @@
 import datetime
 
+from fastapi import HTTPException
+
 from src.config.supabase_config import supabase
 from src.models.user_auth import UserAuth
+from src.utils.utils import validate_password
 
 
 def register_user(user:UserAuth):
     try:
+        errors = validate_password(user.password)
+        if len(errors) > 0 :
+            raise Exception("password not strong enough")
+
         supabase.auth.sign_up({
         "email": user.email,
         "password": user.password,
@@ -31,5 +38,19 @@ def login_user(user:UserAuth):
             "email": user.email
         }
     except Exception as ex:
-        print(ex)
+        print(str(ex))
         raise Exception("Failed to Login user")
+
+def get_new_token(refresh_token:str):
+    try:
+        refreshed = supabase.auth.refresh_session(refresh_token)
+        if not refreshed or not refreshed.session:
+            raise HTTPException(status_code=401, detail="Invalid refresh token")
+        return {
+            "access_token": refreshed.session.access_token,
+            "refresh_token": refreshed.session.refresh_token,
+            "email": refreshed.user.email
+        }
+    except Exception as e:
+        print(str(e))
+        raise HTTPException(status_code=401, detail="Invalid refresh token")

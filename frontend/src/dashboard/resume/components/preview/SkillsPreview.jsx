@@ -18,13 +18,13 @@ function SkillsPreview({ resumeInfo }) {
     <div className="my-6">
       <h2
         className="text-center font-bold text-base mb-2"
-        style={{ color: themeColor }}
+        style={{ color: isEmpty ? "gray" : themeColor }}
       >
         Skills
       </h2>
-      <hr style={{ borderColor: themeColor }} />
+      <hr style={{ borderColor: isEmpty ? "gray" : themeColor }} />
 
-      <div className="grid grid-cols-2 gap-3 my-4">
+      <div className="grid grid-cols-2 gap-3 my-2">
         {(isEmpty ? placeholderSkills : skillsList).map((skill, index) => (
           <div
             key={index}

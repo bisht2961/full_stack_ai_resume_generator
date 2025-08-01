@@ -30,20 +30,20 @@ const ProjectPreview = ({ resumeInfo }) => {
     <div className="my-6">
       <h2
         className="text-center font-bold text-sm mb-2"
-        style={{ color: themeColor }}
+        style={{ color: empty ? "gray" : themeColor }}
       >
         Projects
       </h2>
-      <hr style={{ borderColor: themeColor }} />
+      <hr style={{ borderColor: empty ? "gray" : themeColor }} />
 
       {empty ? (
-        <div className="my-5 text-gray-400 italic text-xs">
+        <div className="my-2 text-gray-400 italic text-xs">
           <div className="text-xs text-gray-500">
             {dummyProject.map((item, index) => (
               <div key={index} className="my-5">
                 <h2
                   className="text-base font-bold"
-                  style={{ color: themeColor }}
+                  style={{ color: 'gray' }}
                 >
                   {item.title}
                 </h2>

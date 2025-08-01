@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import HTTPException, Depends, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials, OAuth2PasswordBearer
 from jose import jwt, JWTError
-from src.config.env_config import SUPABASE_URL, SUPABASE_KEY, SUPABASE_JWT_SECRET
+from src.config.env_config import SUPABASE_URL, SUPABASE_KEY, TEST_BYPASS_TOKEN
 from supabase import create_client, Client
 
 from src.models.user_auth import UserAuth
@@ -13,8 +13,7 @@ if not SUPABASE_URL or not SUPABASE_KEY:
     raise ValueError(
         "SUPABASE_URL and SUPABASE_KEY must be set in your environment variables or .env file."
     )
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
-# oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)\
 
 def get_supabase():
     return supabase
@@ -32,6 +31,9 @@ async def verify_jwt_token(token: Annotated[bearer_scheme, Depends(bearer_scheme
                 detail="Not authenticated",
                 headers={"WWW-Authenticate": "Bearer"},
             )
+        # 🔓 Bypass auth for Swagger testing with a hardcoded or ENV-based token
+        if token.credentials == TEST_BYPASS_TOKEN:
+            return {"email": "test@example.com"}
         user_response = supabase.auth.get_user(token.credentials)
 
         if user_response.user:

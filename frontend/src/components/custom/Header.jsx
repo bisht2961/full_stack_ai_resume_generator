@@ -10,9 +10,11 @@ const Header = () => {
 
   useEffect(() => {
     const user = localStorage.getItem("email");
-    setIsSignedIn(!!user);
+    const tokens = sessionStorage.getItem("access_token");
+    const refresh_token = sessionStorage.getItem("refresh_token");
+    setIsSignedIn(!!user && !!tokens && !!refresh_token);
   }, []);
-
+  
   const handleLogout = () => {
     localStorage.removeItem("email");
     sessionStorage.removeItem("access_token");

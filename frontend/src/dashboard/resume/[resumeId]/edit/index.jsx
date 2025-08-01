@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import FormSection from "../../components/FormSection";
 import ResumePreview from "../../components/ResumePreview";
 import { ResumeInfoContext } from "@/context/ResumeInfoContext";
@@ -9,6 +9,8 @@ import { LoaderCircle } from "lucide-react";
 
 function EditResume() {
   const { resumeId } = useParams();
+  const location = useLocation();
+  const extractedResume = location.state?.extractedResume;
   const [resumeInfo, setResumeInfo] = useState();
   const {
     getResume,
@@ -23,10 +25,15 @@ function EditResume() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // console.log(resumeId)
-    resumeId && fetchResumeInfo();
-  }, []);
 
+    if(extractedResume){
+      console.log("Extracted Resume:", extractedResume);
+      setResumeInfo(extractedResume);
+      return;
+    }
+    fetchResumeInfo();
+  }, []);
+  
   const fetchResumeInfo = async () => {
     try {
       setLoading(true);
@@ -41,7 +48,7 @@ function EditResume() {
         getAllAchievements,
         getAllProjects
       });
-      console.log(data)
+      // console.log(data)
       setResumeInfo(data);
       setLoading(false);
     } catch (err) {

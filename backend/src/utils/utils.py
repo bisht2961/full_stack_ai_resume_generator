@@ -23,3 +23,23 @@ def check_user_details(user:PersonalInfo):
     valid_name(user.first_name)
     valid_name(user.last_name)
     valid_email(user.email)
+
+def validate_password(password: str) -> list[str]:
+    errors = []
+
+    if len(password) < 8:
+        errors.append("Password must be at least 8 characters long.")
+    if len(password) > 32:
+        errors.append("Password must be at most 32 characters long.")
+    if not re.search(r"[A-Z]", password):
+        errors.append("Password must contain at least one uppercase letter.")
+    if not re.search(r"[a-z]", password):
+        errors.append("Password must contain at least one lowercase letter.")
+    if not re.search(r"[0-9]", password):
+        errors.append("Password must contain at least one digit.")
+    if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+        errors.append("Password must contain at least one special character.")
+    if re.search(r"\s", password):
+        errors.append("Password must not contain spaces.")
+
+    return errors

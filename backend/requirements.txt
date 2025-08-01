@@ -1,9 +1,9 @@
-fastapi
+fastapi~=0.115.11
 uvicorn
 python-multipart
-python-dotenv
+python-dotenv~=1.0.1
 
-supabase
+supabase~=2.13.0
 
 google-ai-generativelanguage
 google-api-core
@@ -16,10 +16,14 @@ openpyxl
 filetype
 beautifulsoup4
 
-pydantic
+pydantic~=2.10.6
 pydantic-core
 
 httpx
 requests
 email-validator
-python-jose
+python-jose~=3.5.0
+jose~=1.0.0
+pypdf~=5.8.0
+groq~=0.13.1
+starlette~=0.46.1

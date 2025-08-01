@@ -1,11 +1,13 @@
 export default{
-    firstName:'James',
-    lastName:'Carter',
-    jobTitle:'full stack developer',
-    address:'525 N tryon Street, NC 28117',
-    phone:'(123)-456-7890',
-    email:'example@gmail.com',
-    themeColor:"#ff6666",
+    personalInfo:{
+        firstName: 'John',
+        lastName: 'Doe',
+        jobTitle: 'Software Engineer',
+        address: '1234 Placeholder Street, City, Country',
+        phone: '+1 (555) 123-4567',
+        email: 'johndoe@example.com',
+        themeColor: '#F7FAFC'
+    },
     summary:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     experience:[
         {

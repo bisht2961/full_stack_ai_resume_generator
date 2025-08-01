@@ -13,7 +13,8 @@ from src.controllers.resume_pdf_controller import resume_doc_router
 from src.controllers.achievements_controller import achievements_router
 from src.controllers.projects_controller import projects_router
 from src.controllers.user_auth import user_auth_router
-
+import os
+os.environ['PYDANTIC_PRIVATE_ALLOW_UNHANDLED_SCHEMA_TYPES'] = '1'
 app = FastAPI(
     title="SmartResume AI Backend using Supabase & FastAPI ",
     description="APIs for SmartResume AI.",

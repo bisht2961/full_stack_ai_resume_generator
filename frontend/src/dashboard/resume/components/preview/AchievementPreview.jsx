@@ -1,7 +1,6 @@
 import React from "react";
 
-const AchievementPreview = ({ resumeInfo }) => {
-  const themeColor = resumeInfo?.resume?.themeColor || "#4B5563";
+const AchievementPreview = ({ resumeInfo }) => { // Default to black if themeColor is not provided
   const achievements = resumeInfo?.achievements || [];
   const dummyAchievements = [
     {
@@ -20,12 +19,12 @@ const AchievementPreview = ({ resumeInfo }) => {
   return (
     <div className="my-6">
       <h2
-        className="text-center font-bold text-sm mb-2"
-        style={{ color: themeColor }}
+        className="text-center font-bold text-sm mb-2 text-blue-600"
+        style={{ color: empty? "gray" : resumeInfo?.themeColor || "black" }}
       >
         Achievements
       </h2>
-      <hr style={{ borderColor: themeColor }} />
+      <hr style={{ borderColor: empty? "gray" : resumeInfo?.themeColor || "black" }} />
 
       {empty ? (
         <div className="flex flex-col items-center justify-center mt-4">

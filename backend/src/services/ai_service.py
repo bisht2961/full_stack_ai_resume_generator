@@ -1,65 +1,16 @@
+import tempfile
+
+from fastapi import UploadFile
+from pypdf import PdfReader
+from src.utils.prompt_and_tool import (get_resume_experience_generator_tool_spec, get_resume_summary_generator_tool_spec,
+                                        build_resume_prompt)
 from src.config.env_config import GROQ_API_KEY
 import json
 from groq import Groq
 
 
 client = Groq(api_key=GROQ_API_KEY)
-summary_tool = [
-    {
-        "type": "function",
-        "function": {
-            "name": "generate_resume_summaries",
-            "description": "Generate resume summaries for different experience levels",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "summaries": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "summary": {"type": "string"},
-                                "experience_level": {
-                                    "type": "string",
-                                    "enum": ["Fresher", "Mid-level", "High-level"]
-                                }
-                            },
-                            "required": ["summary", "experience_level"]
-                        }
-                    }
-                },
-                "required": ["summaries"]
-            }
-        }
-    }
-]
-groq_tools = [
-    {
-        "type": "function",
-        "function": {
-            "name": "handle_resume_bullets",
-            "description": "Generates or rewrites resume experience/project description bullet points as plain text based on action type",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "action_type": {
-                        "type": "string",
-                        "enum": ["generate", "regenerate"],
-                        "description": "Whether the response is for newly generated or regenerated bullet points"
-                    },
-                    "bullets": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "description": "List of bullet points in plain text"
-                    }
-                },
-                "required": ["action_type", "bullets"]
-            }
-        }
-    }
-]
+
 system_prompt = """
 You are a helpful AI assistant that helps generate or rewrite resume experience or project description bullet points.
 
@@ -71,7 +22,6 @@ Instructions:
   - "action_type": either "generate" or "regenerate"
   - "bullets": an array of plain text bullet points
 """
-
 
 
 
@@ -89,7 +39,7 @@ def get_summary_groq(title:str):
                     "content": f"Generate resume summaries for the job title '{title}' for three levels: Fresher, Mid-level, and High-level. Focus on technical and soft skills relevant to the role."
                 }
             ],
-            tools=summary_tool,
+            tools=[get_resume_summary_generator_tool_spec()],
             tool_choice={"type": "function", "function": {"name": "generate_resume_summaries"}}
         )
         raw_args = chat_completion.choices[0].message.tool_calls[0].function.arguments
@@ -112,7 +62,7 @@ def get_ai_description_groq(user_input:str):
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}
             ],
-            tools=groq_tools,
+            tools=[get_resume_experience_generator_tool_spec()],
             tool_choice={"type": "function", "function": {"name": "handle_resume_bullets"}}
         )
 
@@ -134,7 +84,7 @@ def get_ai_description_groq(user_input:str):
 def get_regenerate_ai_description_groq(user_input:str):
     try:
         user_prompt = f"""
-               action_type: "generate"
+               action_type: "regenerate"
                Input: {user_input}
                """
         chat_completion = client.chat.completions.create(
@@ -143,7 +93,7 @@ def get_regenerate_ai_description_groq(user_input:str):
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}
             ],
-            tools=groq_tools,
+            tools=[get_resume_experience_generator_tool_spec()],
             tool_choice={"type": "function", "function": {"name": "handle_resume_bullets"}}
         )
 
@@ -155,3 +105,44 @@ def get_regenerate_ai_description_groq(user_input:str):
         return data["bullets"]
     except Exception as e:
         print(f"Error: {str(e)}")
+
+async def get_json_resume_information(resume: UploadFile):
+    contents = await resume.read()
+
+    # Save to a temporary file
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:
+        temp_file.write(contents)
+        temp_file_path = temp_file.name  # fixed typo here
+
+    reader = PdfReader(temp_file_path)
+    resume_text = ""
+    for page in reader.pages:
+        resume_text += page.extract_text()+"\n"
+
+    prompt = build_resume_prompt(resume_text)
+    # print(f"Resume text extracted: {resume_text}")
+    chat_completion = client.chat.completions.create(
+        model="llama3-8b-8192",
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You are a strict JSON generator. You must output ONLY a single valid JSON object "
+                    "that matches the provided schema exactly. Do not include any explanations."
+                ),
+            },
+            {
+                "role": "user",
+                "content": prompt,
+            },
+        ],
+        temperature=0.3
+    )
+    content = chat_completion.choices[0].message.content.strip()
+    print(f"extracted content : {content}")
+    try:
+
+        json_output = json.loads(content)
+        return json_output
+    except Exception as e:
+        return {"error": "Could not parse JSON", "raw": content}
